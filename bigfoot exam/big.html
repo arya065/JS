@@ -25,7 +25,7 @@
             foooooot -> tamaño 8<br>
             <p>
                 <script>
-                    let arr =["O","T"];
+                    let arr =["O","F","O","O","S","T","O","F","O","O","O","T","O","F","O","O","O","O","O","T"];;
                     console.log(calc(arr,0,0));
 
                     function calc(arr,size,biggest){
@@ -59,6 +59,7 @@
                             arr.shift();
                             // console.log(arr);
                         }
+                        console.log("call myself");
                         return calc(arr,0,biggest);
                     }
                 </script>
