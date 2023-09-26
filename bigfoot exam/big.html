@@ -25,14 +25,15 @@
             foooooot -> tamaño 8<br>
             <p>
                 <script>
-                    let arr =["O","F","O","O","S","T","O","F","O","O","O","T","O","F","O","O","O","O","O","T"];;
+                    let arr =["O","F","O","O","S","T","O","F","O","O","O","T","F","O","O","O","T","O","F","O","O","O","O","O","O","O","O","O","O","O","O","O","T"];;
                     console.log(calc(arr,0,0));
 
-                    function calc(arr,size,biggest){
+                    function calc(arr,size,biggest,complete){
                         if (arr.length == 0){
                             document.write("tamano: " + biggest);
                             return biggest;
-                        } else{                                                        
+                        } else{     
+                            complete = false;                                                  
                             if (arr[0] == "F"){
                                 size ++;
                                 // console.log("F: " + size);
@@ -42,6 +43,7 @@
                                         // console.log("O: " + size);
                                         if (arr[size] == "T"){
                                             size ++;
+                                            complete = true;
                                             // console.log("T: " + size);
                                             break;
                                         }
@@ -50,7 +52,7 @@
                                     }
                                 } while (true);
                             }
-                            if(size > biggest){
+                            if(size > biggest && complete){
                                 biggest = size;
                             }
                             // console.log("size now: " + size);
@@ -60,7 +62,7 @@
                             // console.log(arr);
                         }
                         console.log("call myself");
-                        return calc(arr,0,biggest);
+                        return calc(arr,0,biggest,complete);
                     }
                 </script>
             </body>
