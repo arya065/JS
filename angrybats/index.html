@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Minevancic color</title>
+</head>
+
+<body>
+    <p id="txt">&nbsp;
+    <p>
+        <script>
+            let biocenosis = [['m', 'P', 'G', 'H', 'H', 'R'], ['P', 'P', 'G', 'H', 'H', 'G'], ['P', 'G', 'R', 'H', 'H', 'G'], ['G', 'R', 'R', 'H', 'G', 'G'], ['R', 'R', 'H', 'H', 'G', 'P']];
+            let tmp = "test";
+            pandemic();
+
+
+            function pandemic() {
+                //matrix start
+                printMatrix(biocenosis);
+                do {
+                    let positions = getPos();
+                    let x = positions.charAt(0);
+                    let y = positions.charAt(2);
+
+                    if (biocenosis[x][y] == "m") {
+                        break;
+                    }
+                    alert("Incorrect position, no bat there")
+                } while (true);
+
+            }
+
+
+            function printMatrix(matrix) {
+                for (i = 0; i < matrix.length; i++) {
+                    let tmp = "";
+                    for (j = 0; j < matrix[i].length; j++) {
+                        tmp += matrix[i][j] + ";";
+                    }
+                    console.log(tmp);
+                }
+            }
+            function getPos() {
+                result = prompt("enter position of virus", "example: 3,3");
+                return result;
+            }
+        </script>
+</body>
+
+</html>
