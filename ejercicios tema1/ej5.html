@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<body>
+    <button type="button" onclick="winAlertRus()">Dale ruso</button>
+    <button type="button" onclick="winAlertEsp()">Dale espanol</button>
+    <button type="button" onclick="winAlertEng()">Dale ingles</button>
+    <p id="txt">&nbsp;</p>
+    <script>
+        function winAlertRus(){
+            document.getElementById('txt').innerHTML = 'Добро пожаловать';
+            document.getElementById('txt').style.color = "red";
+        }
+        function winAlertEsp(){
+            document.getElementById('txt').innerHTML = 'Bien venido';
+            document.getElementById('txt').style.color = "yellow";
+        }
+        function winAlertEng(){
+            document.getElementById('txt').innerHTML = 'Welcome';
+            document.getElementById('txt').style.color = "blue";
+        }
+    </script>
+</body>
+</html>
