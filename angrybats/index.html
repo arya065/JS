@@ -1,35 +1,63 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-    <title>Minevancic color</title>
-</head>
+    <head>
+        <title>Minevancic color</title>
+    </head>
 
-<body>
-    <p id="txt">&nbsp;
-    <p>
-        <script>
-            let biocenosis = [['m', 'P', 'G', 'H', 'H', 'R'], ['P', 'P', 'G', 'H', 'H', 'G'], ['P', 'G', 'R', 'H', 'H', 'G'], ['G', 'R', 'R', 'H', 'G', 'G'], ['R', 'R', 'H', 'H', 'G', 'P']];
+    <body>
+        <p id="txt">&nbsp;
+            <p>
+                <script>
+            let biocenosis = [['G', 'P', 'G', 'H', 'H', 'R'], ['P', 'P', 'G', 'M', 'H', 'G'], ['P', 'G', 'R', 'H', 'H', 'G'], ['G', 'R', 'R', 'H', 'G', 'G'], ['R', 'R', 'H', 'H', 'G', 'P']];
             let tmp = "test";
-            pandemic();
+            pandemicStart();
 
 
-            function pandemic() {
+            function pandemicStart() {
                 //matrix start
                 printMatrix(biocenosis);
+                //ask for positions
+                let x, y;
                 do {
                     let positions = getPos();
-                    let x = positions.charAt(0);
-                    let y = positions.charAt(2);
-
-                    if (biocenosis[x][y] == "m") {
+                    x = parseInt(positions.charAt(0));
+                    y = parseInt(positions.charAt(2));
+                    if (biocenosis[x][y] == "M") {
                         break;
                     }
                     alert("Incorrect position, no bat there")
                 } while (true);
-
+                biocenosis[x][y] = "m";
+                goKillAll(x,y);
+                console.log(biocenosis);
             }
 
+            function goKillAll(x,y){
+                virusGo(x-1,y-1);
+                virusGo(x-1,y);
+                virusGo(x-1,y+1);
+                virusGo(x,y-1);
+                virusGo(x,y+1);
+                virusGo(x+1,y-1);
+                virusGo(x+1,y);
+                virusGo(x+1,y+1);        
+            }
+
+            function virusGo(x,y){
+                try{
+                    if (x<0 || y < 0){
+                         
+                    } else if (biocenosis[x][y] == "H"){
+                        biocenosis[x][y] = " ";
+                        printMatrix(biocenosis);
+                        goKillAll(x,y);
+                        // biocenosis[x][y] = "";
+                    }
+                } catch(TypeError){
+                    console.log("error");
+                }
+            }
 
             function printMatrix(matrix) {
                 for (i = 0; i < matrix.length; i++) {
@@ -39,12 +67,13 @@
                     }
                     console.log(tmp);
                 }
+                console.log("___________________");
             }
             function getPos() {
-                result = prompt("enter position of virus", "example: 3,3");
+                result = prompt("Enter position of virus", "example: 3,3");
                 return result;
             }
         </script>
-</body>
+            </body>
 
-</html>
+        </html>
