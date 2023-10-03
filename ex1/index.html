@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <h2>JavaScript Arrays</h2>
+        <p> Tenemos tres arrays arr1 arr2 y arr3 y queremos insertarlos de forma
+            ordenada en un cuarto array arr4.
+            Importante: hay que insertarlo de forma ordenada.
+            Solo puedes utilizar el método de arrays push() y length().
+            No puedes modificar los arrays arr1 arr2 o arr3.
+            Muestra el resultado en el campo demo.
+            No puedes crear más variables que las que se te ofrecen.
+        </p>
+        <p id="demo"></p>
+        <script>
+            const arr1 = [1,2,3,7,9];
+            const arr2 = [4,5,6,9,9];
+            const arr3 = [7,9,15,19,25,38,49];
+            var arr4=[]
+            let i=0;
+            let j=0;
+            let k=0;
+            /*AQUÍ VA TU CÓDIGO*/
+            i = arr1[0];
+            j = arr2[0];
+            k = arr3[0];
+            // do{
+            for (ii = 1; ii < arr1.length; ii++){
+                for (jj = 1;jj< arr2.length; jj++){
+                    for (kk = 1;kk< arr3.length;kk++){
+                        do{
+                            if(i=="" && ii < arr1.length-1){
+                                i = arr1[ii++];
+                                console.log("ii = " , ii);
+                            }
+                            if (j =="" && jj < arr2.length-1){
+                                j = arr2[jj++];
+                                console.log("jj = ",jj);
+                            }
+                            if (k == "" && kk<arr3.length-1){
+                                k = arr3[kk++];
+                                console.log("kk = ", kk);
+                            }
+
+
+                            if (i < j && i <k){
+                                arr4.push(i);
+                                console.log(arr4);
+                                i = "";
+                            }
+                            else if (j<i && j<k){
+                                arr4.push(j);
+                                console.log(arr4);
+                                j = "";
+                            }
+                            else if (k<i && k<j){
+                                arr4.push(k);
+                                console.log(arr4);
+                                k ="";
+                            } else if(i==j&& i==k){
+                                arr4.push(i);
+                                arr4.push(j);
+                                arr4.push(k);
+                                console.log(arr4);
+                                i = "";
+                                j = "";
+                                k = "";
+                            } else if (i == j){
+                                arr4.push(i);
+                                arr4.push(j);
+                                console.log(arr4);
+                                i = "";
+                                j = "";
+                            } else if(i == k){
+                                arr4.push(i);
+                                arr4.push(k);
+                                console.log(arr4);
+                                i = "";
+                                k ="";
+                            } else if(j == k){
+                                arr4.push(j);
+                                arr4.push(k);
+                                console.log(arr4);
+                                i = "";
+                                k = "";
+                            } 
+                        }while(true);
+            
+                    }
+                }
+            }
+            // } while(true);
+            console.log(arr4);
+            document.getElementById("demo").innerHTML = arr4;
+        </script>
+    </body>
+</html>

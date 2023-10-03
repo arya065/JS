@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>RECURSIVIDAD</title>
+    </head>
+    <body>
+        <script>
+        let people = ["perico", "juanico",
+        "andres","dimas","gestas","zarco", "maimonides",
+        "elias","jeremias","dimas","dimas","gestas"];
+        console.log(people)
+        // ESCRIBE TU CÓDIGO AQUÍ
+        console.log("count of name: ", parseInt(findMyGuy("dimas",0,0)));
+
+        function findMyGuy(name,i,count){
+            if(i > people.length-1){
+                return count;
+            }
+            if (people[i] == name){
+                count +=1;
+            }
+            return count = findMyGuy(name,i+1,count);
+        }
+        </script>
+    </body>
+</html>
