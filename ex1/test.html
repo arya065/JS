@@ -20,9 +20,42 @@
             let j=0;
             let k=0;
             /*AQUÍ VA TU CÓDIGO*/
-            do{
-                console.log("i=", i, ";j=",j,";k=",k);
-                console.log("v1=", arr1[i],";v2=",arr2[j],";v3=",arr3[k]);
+            for (l = 0; l < arr1.length+arr2.length+arr3.length; l++){
+                console.log(arr4);
+                if (i > arr1.length-1){
+                    if(j > arr2.length-1){
+                        arr4.push(arr3[k]);
+                        k+=1;
+                    } 
+                    if (k > arr3.length-1){
+                        arr4.push(arr2[j]);
+                        j+=1;
+                    }
+                } 
+                if (j > arr2.length-1){
+                    if(i > arr1.length-1){
+                        arr4.push(arr3[k]);
+                        k+=1;
+                    } 
+                    if (k > arr3.length-1){
+                        arr4.push(arr1[i]);
+                        i+=1;
+                    }
+                }
+                if (k > arr3.length-1){
+                    if(j > arr2.length-1){
+                        arr4.push(arr1[i]);
+                        i+=1;
+                    } 
+                    if (i > arr1.length-1){
+                        arr4.push(arr2[j]);
+                        j+=1;
+                    }
+                } 
+
+                
+                // console.log("i=", i, ";j=",j,";k=",k);
+                // console.log("v1=", arr1[i],";v2=",arr2[j],";v3=",arr3[k]);
                 if (arr1[i] < arr2[j] && arr1[i]<arr3[k]){
                     arr4.push(arr1[i]);
                     i+=1;
@@ -62,9 +95,7 @@
                     k += 1;
                 }
                 
-                console.log(arr4);
-                console.log();
-            } while (i<arr1.length || j < arr2.length || k < arr3.length);
+            }
             console.log(arr4);
             document.getElementById("demo").innerHTML = arr4;
         </script>
