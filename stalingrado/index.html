@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+    </head>
+    <body>
+        <script>
+
+        let arr = [
+            ["A","A"," ","R"," "," "," "," "," "],
+            ["A","A"," ","R"," "," "," "," "," "],
+            ["A","A"," ","R"," "," "," "," "," "],
+            [" "," "," "," "," "," "," "," "," "],
+            ["R","R","R","R","R"," ","R","R","R"],
+            [" "," "," ","R"," "," "," "," "," "],
+            [" "," "," ","R"," "," "," "," "," "],
+            [" "," "," ","R"," "," "," ","A","A"],
+            [" "," "," ","R"," "," "," ","A","A"],
+        ];
+
+
+        if (goVer() || goHor()){
+            console.log("Ganan los rusos");
+        } else{
+            console.log("Ganan los alemanes");
+        }
+        function goVer(){
+            for(i = 0; i < 9; i++){
+                if (arr[0][i] == "R"){
+                    if(goY(i)){
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+        function goY(x){
+            for (i = 0; i < 9; i++){
+                if(arr[i][x] != "R"){
+                    return false;
+                }
+            }
+            return true;
+        }
+        function goX(y){
+            for (i = 0; i < 9; i++){
+                if(arr[y][i] != "R"){
+                    return false;
+                }
+            }
+            return true;
+        }
+        function goHor(){
+            for(i = 0; i < 9; i++){
+                if (arr[i][0] == "R"){
+                    if(goX(i)){
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+    </script>
+    </body>
+</html>
