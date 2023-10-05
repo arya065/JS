@@ -7,61 +7,168 @@
     </head>
     <body>
         <script>
+            let arr = [
+                ["A","A"," ","R"," "," "," "," "," "],
+                ["A","A"," ","R"," "," "," "," "," "],
+                ["A","A"," ","R","R"," "," "," "," "],
+                [" "," "," ","R"," ","R"," "," "," "],
+                ["R","R"," "," "," ","R","R","R","R"],
+                [" "," "," ","R"," "," "," "," "," "],
+                [" "," "," ","R"," "," "," "," "," "],
+                [" "," "," ","R"," "," "," ","A","A"],
+                [" "," "," ","R"," "," "," ","A","A"],
+            ];
+            let block = [];
+            iniEmptyMatrix(block);
+            findHorizontal();
+            console.log(block);
+            
+            /*
+            чтобы узнать что есть отделение, надо пройтись по верхнему ряду (затем по левому, затем по правому),
+            при нахождении "R", нужно проверить все направления на наличие "R".
+            При нахождении "R", запускаем проверку дальше до левой/правой/нижней/верхней стенки.
+            Сохраняем до какой стенки дошли, если такой нет, то вывод.
+            Сохраняем позиции "R", которые создали стенку,(может не надо)
+            проверяем обе стороны от стенки на наличие "R". 
+            Если найден "A", проверяем другую сторону, если там тоже найдена "А", вывод
+            Если "А" не найдена в первой или второй, вывод
+            */
+            function iniEmptyMatrix (matrix){
+                for (let i = 0; i < 9; i++) {
+                    const row = [];
+                    for (let j = 0; j < 9; j++) {
+                        row.push("");
+                    }
+                    matrix.push(row);
+                }
+            }
 
-        let arr = [
-            ["A","A"," ","R"," "," "," "," "," "],
-            ["A","A"," ","R"," "," "," "," "," "],
-            ["A","A"," ","R"," "," "," "," "," "],
-            [" "," "," "," "," "," "," "," "," "],
-            ["R","R","R","R","R"," ","R","R","R"],
-            [" "," "," ","R"," "," "," "," "," "],
-            [" "," "," ","R"," "," "," "," "," "],
-            [" "," "," ","R"," "," "," ","A","A"],
-            [" "," "," ","R"," "," "," ","A","A"],
-        ];
+            function findWall(){
 
-
-        if (goVer() || goHor()){
-            console.log("Ganan los rusos");
-        } else{
-            console.log("Ganan los alemanes");
-        }
-        function goVer(){
-            for(i = 0; i < 9; i++){
-                if (arr[0][i] == "R"){
-                    if(goY(i)){
-                        return true;
+            }
+            function findHorizontal(){
+                for (i = 0; i < 9; i++){
+                    for(i = 0; i < 9; i++){
+                        if (arr[0][i] == "R"){
+                            findNext(0,i,false," "," ");
+                        }
                     }
                 }
             }
-            return false;
-        }
-        function goY(x){
-            for (i = 0; i < 9; i++){
-                if(arr[i][x] != "R"){
-                    return false;
+            function findNext(x,y,result,current,previous){
+                if (x > 8 || y > 8 || y < 0 || x < 0){
+                    return true; //we have a wall
                 }
-            }
-            return true;
-        }
-        function goX(y){
-            for (i = 0; i < 9; i++){
-                if(arr[y][i] != "R"){
-                    return false;
-                }
-            }
-            return true;
-        }
-        function goHor(){
-            for(i = 0; i < 9; i++){
-                if (arr[i][0] == "R"){
-                    if(goX(i)){
-                        return true;
+                block[x][y] = "R";
+                //check directions to find next "R"
+                try{
+                    if (arr[x-1][y] == "R" && previous != "top" && current != "top"){//top
+                        result = findNext(x-1,y,result,"down","down");
                     }
+                } catch(TypeError){
+                    console.log("top because x= ", x-1, "; y= ", y);
+                    result = false;
                 }
+                try{
+                    if (arr[x-1][y+1] == "R" && previous != "top" && current != "right-top"){//right-top
+                        result = findNext(x-1,y+1,result,"left-down","down");
+                    }
+                } catch (TypeError){
+                    console.log("right-top because x= ", x-1, "; y= ", y + 1);
+                    result = false;
+                }
+                try{
+                    if (arr[x][y+1] == "R" && previous != "right" && current != "right"){//right
+                        result = findNext(x,y+1,result,"left",current);
+                    }
+                } catch (TypeError){
+                    console.log("right because x= ", x, "; y= ", y + 1);
+                    result = false;
+                }
+                try{
+                    if (arr[x+1][y+1] == "R" && previous != "down" && current != "right-down"){//right-down
+                        result = findNext(x+1,y+1,result,"left-top","top");
+                    }
+                } catch (TypeError){
+                    console.log("down-right because x= ", x + 1, "; y= ", y + 1);
+                    result = false;
+                }
+                try{
+                    if (arr[x+1][y] == "R" && previous != "down" && current != "down"){//down
+                        result = findNext(x+1,y,result,"top","top");
+                    }
+                } catch (TypeError){
+                    console.log("down because x= ", x+1, "; y= ", y);
+                    result = false;
+                }
+                try{
+                    if (arr[x+1][y-1] == "R" && previous != "down" && current != "left-down"){//left-down
+                        result = findNext(x+1,y-1,result,"right-top","top");
+                    }
+                } catch (TypeError){
+                    console.log("down-left because x= ", x + 1, "; y= ", y - 1);
+                    result = false;
+                }
+                try{
+                    if (arr[x][y-1] == "R" && previous != "left" && current != "left"){//left
+                        result = findNext(x,y-1,result, "right",current);
+                    }
+                } catch (TypeError){
+                    console.log("left because x= ", x, "; y= ", y - 1);
+                    result = false;
+                }
+                try{
+                    if (arr[x-1][y-1] == "R" && previous != "top" && current != "left-top"){//left-top
+                        result = findNext(x-1,y-1,result, "right-down","dowm");
+                    }
+                } catch (TypeError){
+                    console.log("left-top because x= ", x-1, "; y= ", y - 1);
+                    result = false;
+                }
+                return result;
             }
-            return false;
-        }
+
+        // if (goVer() || goHor()){
+        //     console.log("Ganan los rusos");
+        // } else{
+        //     console.log("Ganan los alemanes");
+        // }
+        // function goVer(){
+        //     for(i = 0; i < 9; i++){
+        //         if (arr[0][i] == "R"){
+        //             if(goY(i)){
+        //                 return true;
+        //             }
+        //         }
+        //     }
+        //     return false;
+        // }
+        // function goY(x){
+        //     for (i = 0; i < 9; i++){
+        //         if(arr[i][x] != "R"){
+        //             return false;
+        //         }
+        //     }
+        //     return true;
+        // }
+        // function goX(y){
+        //     for (i = 0; i < 9; i++){
+        //         if(arr[y][i] != "R"){
+        //             return false;
+        //         }
+        //     }
+        //     return true;
+        // }
+        // function goHor(){
+        //     for(i = 0; i < 9; i++){
+        //         if (arr[i][0] == "R"){
+        //             if(goX(i)){
+        //                 return true;
+        //             }
+        //         }
+        //     }
+        //     return false;
+        // }
     </script>
     </body>
 </html>
