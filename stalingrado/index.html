@@ -12,7 +12,7 @@
                 ["A","A"," ","R"," "," "," "," "," "],
                 ["A","A"," ","R","R"," "," "," "," "],
                 [" "," "," ","R"," ","R"," "," "," "],
-                ["R","R"," "," "," ","R","R","R","R"],
+                ["R","R"," ","R"," ","R","R","R","R"],
                 [" "," "," ","R"," "," "," "," "," "],
                 [" "," "," ","R"," "," "," "," "," "],
                 [" "," "," ","R"," "," "," ","A","A"],
@@ -48,10 +48,9 @@
             }
             function findHorizontal(){
                 for (i = 0; i < 9; i++){
-                    for(i = 0; i < 9; i++){
-                        if (arr[0][i] == "R"){
-                            findNext(0,i,false," "," ");
-                        }
+                    if (arr[0][i] == "R"){
+                        findNext(0,i,false," "," ");
+                        console.log("true");
                     }
                 }
             }
@@ -59,70 +58,30 @@
                 if (x > 8 || y > 8 || y < 0 || x < 0){
                     return true; //we have a wall
                 }
+                if (i == 3 && y == 5){
+                    console.log("here we go again");
+                }
                 block[x][y] = "R";
-                //check directions to find next "R"
+                //check directions to find next "R" to the right
                 try{
-                    if (arr[x-1][y] == "R" && previous != "top" && current != "top"){//top
+                    if (x>0 && arr[x-1][y] == "R" && previous != "top" && current != "top"){//top
                         result = findNext(x-1,y,result,"down","down");
-                    }
-                } catch(TypeError){
-                    console.log("top because x= ", x-1, "; y= ", y);
-                    result = false;
-                }
-                try{
-                    if (arr[x-1][y+1] == "R" && previous != "top" && current != "right-top"){//right-top
+                    }else if (x>0 && y < 8 &&arr[x-1][y+1] == "R" && previous != "top" && current != "right-top"){//right-top
                         result = findNext(x-1,y+1,result,"left-down","down");
-                    }
-                } catch (TypeError){
-                    console.log("right-top because x= ", x-1, "; y= ", y + 1);
-                    result = false;
-                }
-                try{
-                    if (arr[x][y+1] == "R" && previous != "right" && current != "right"){//right
+                    }else if (y < 8 && arr[x][y+1] == "R" && previous != "right" && current != "right"){//right
                         result = findNext(x,y+1,result,"left",current);
-                    }
-                } catch (TypeError){
-                    console.log("right because x= ", x, "; y= ", y + 1);
-                    result = false;
-                }
-                try{
-                    if (arr[x+1][y+1] == "R" && previous != "down" && current != "right-down"){//right-down
+                    }else if (x<8 && y < 8 && arr[x+1][y+1] == "R" && previous != "down" && current != "right-down"){//right-down
                         result = findNext(x+1,y+1,result,"left-top","top");
-                    }
-                } catch (TypeError){
-                    console.log("down-right because x= ", x + 1, "; y= ", y + 1);
-                    result = false;
-                }
-                try{
-                    if (arr[x+1][y] == "R" && previous != "down" && current != "down"){//down
+                    }else if (x<8 && y > 0 && arr[x+1][y] == "R" && previous != "down" && current != "down"){//down
                         result = findNext(x+1,y,result,"top","top");
-                    }
-                } catch (TypeError){
-                    console.log("down because x= ", x+1, "; y= ", y);
-                    result = false;
-                }
-                try{
-                    if (arr[x+1][y-1] == "R" && previous != "down" && current != "left-down"){//left-down
+                    }else if (x<8 && arr[x+1][y-1] == "R" && previous != "down" && current != "left-down"){//left-down
                         result = findNext(x+1,y-1,result,"right-top","top");
-                    }
-                } catch (TypeError){
-                    console.log("down-left because x= ", x + 1, "; y= ", y - 1);
-                    result = false;
-                }
-                try{
-                    if (arr[x][y-1] == "R" && previous != "left" && current != "left"){//left
+                    }else if (y > 0 && arr[x][y-1] == "R" && previous != "left" && current != "left"){//left
                         result = findNext(x,y-1,result, "right",current);
-                    }
-                } catch (TypeError){
-                    console.log("left because x= ", x, "; y= ", y - 1);
-                    result = false;
-                }
-                try{
-                    if (arr[x-1][y-1] == "R" && previous != "top" && current != "left-top"){//left-top
+                    }else if (x>0 && y > 0 && arr[x-1][y-1] == "R" && previous != "top" && current != "left-top"){//left-top
                         result = findNext(x-1,y-1,result, "right-down","dowm");
                     }
                 } catch (TypeError){
-                    console.log("left-top because x= ", x-1, "; y= ", y - 1);
                     result = false;
                 }
                 return result;
