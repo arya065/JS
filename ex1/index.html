@@ -20,75 +20,75 @@
             let j=0;
             let k=0;
             /*AQUÍ VA TU CÓDIGO*/
-            i = arr1[0];
-            j = arr2[0];
-            k = arr3[0];
-            // do{
-            for (ii = 1; ii < arr1.length; ii++){
-                for (jj = 1;jj< arr2.length; jj++){
-                    for (kk = 1;kk< arr3.length;kk++){
-                        do{
-                            if(i=="" && ii < arr1.length-1){
-                                i = arr1[ii++];
-                                console.log("ii = " , ii);
-                            }
-                            if (j =="" && jj < arr2.length-1){
-                                j = arr2[jj++];
-                                console.log("jj = ",jj);
-                            }
-                            if (k == "" && kk<arr3.length-1){
-                                k = arr3[kk++];
-                                console.log("kk = ", kk);
-                            }
-
-
-                            if (i < j && i <k){
-                                arr4.push(i);
-                                console.log(arr4);
-                                i = "";
-                            }
-                            else if (j<i && j<k){
-                                arr4.push(j);
-                                console.log(arr4);
-                                j = "";
-                            }
-                            else if (k<i && k<j){
-                                arr4.push(k);
-                                console.log(arr4);
-                                k ="";
-                            } else if(i==j&& i==k){
-                                arr4.push(i);
-                                arr4.push(j);
-                                arr4.push(k);
-                                console.log(arr4);
-                                i = "";
-                                j = "";
-                                k = "";
-                            } else if (i == j){
-                                arr4.push(i);
-                                arr4.push(j);
-                                console.log(arr4);
-                                i = "";
-                                j = "";
-                            } else if(i == k){
-                                arr4.push(i);
-                                arr4.push(k);
-                                console.log(arr4);
-                                i = "";
-                                k ="";
-                            } else if(j == k){
-                                arr4.push(j);
-                                arr4.push(k);
-                                console.log(arr4);
-                                i = "";
-                                k = "";
-                            } 
-                        }while(true);
-            
-                    }
+            i = 0;
+            j = 0;
+            k = 0;
+            console.log (500 == "500");
+            do{
+                if (arr1[i] < arr2[j] && arr1[i] < arr3[k]){
+                    console.log(arr1[i],";",arr2[j],";",arr3[k]);
+                    arr4.push(arr1[i]);
+                    i++;
+                }else if (arr1[i] > arr2[j] && arr3[k] > arr2[j]){
+                    console.log(arr1[i],";",arr2[j],";",arr3[k]);
+                    arr4.push(arr2[j]);
+                    j++;
+                }else if(arr3[k] < arr1[i] && arr3[k] < arr2[j]){
+                    console.log(arr1[i],";",arr2[j],";",arr3[k]);
+                    arr4.push(arr3[k]);
+                    k++;
+                }else if(arr2[j] == arr1[i]){
+                    console.log(arr1[i],";",arr2[j],";",arr3[k]);
+                    arr4.push(arr1[i]);
+                    arr4.push(arr2[j]);
+                    i++;
+                    j++;
+                } else if (arr1[i] == arr3[k]){
+                    console.log(arr1[i],";",arr2[j],";",arr3[k]);
+                    arr4.push(arr1[i]);
+                    arr4.push(arr3[k]);
+                    i++;
+                    k++;
+                } else if (arr2[j] == arr3[k]){
+                    console.log(arr1[i],";",arr2[j],";",arr3[k]);
+                    arr4.push(arr3[k]);
+                    arr4.push(arr2[j]);
+                    k++;
+                    j++;
                 }
-            }
-            // } while(true);
+                
+                if (arr1[i] == null){
+                    arr1[i-1] = "text1";
+                    i--;
+                }
+                if (arr2[j] == null){
+                    arr2[j-1] = "text2";
+                    j--;
+                }
+                if (arr3[k] == null){
+                    arr3[k-1] = "text3";
+                    k--;
+                }
+
+                if (arr1[i] == "text1" && arr2[j] == "text2"){
+                    do {
+                        arr4.push(arr3[k]);
+                        k++;
+                    } while (k < arr3.length -1);
+                }
+                if (arr1[i] == "text1" && arr3[k] == "text3"){
+                    do {
+                        arr4.push(arr2[j]);
+                        j++;
+                    } while (j < arr2.length -1);
+                }
+                if (arr3[k] == "text3" && arr2[j] == "text2"){
+                    do {
+                        arr4.push(arr1[i]);
+                        i++;
+                    } while (i < arr1.length -1);
+                }
+            } while (arr4.length < arr1.length + arr2.length + arr3.length);
             console.log(arr4);
             document.getElementById("demo").innerHTML = arr4;
         </script>
