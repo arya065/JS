@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+    <body>
+        <p id="txt"></p>
+        <br><br>
+        Crea un programa con una función recursiva que muestre todos los
+        números/letras capicúas encontrados en un array. Se entiende por capicúa
+        cuando tiene al menos 3 posiciones del array.
+        Por ejemplo con el array: 5 4 6 5 6 4 3 O S O<br><br>
+        mostrará: <br>
+        656<br>
+        46564<br>
+        OSO
+        <p>Pista:const animals = ['ant', 'bison', 'camel', 'duck',
+            'elephant'];
+            console.log(animals.slice(2));
+            // expected output: Array ["camel", "duck", "elephant"]
+            console.log(animals.slice(2, 4));
+            // expected output: Array ["camel", "duck"]
+            console.log(animals.slice(2, 4).reverse());
+            // expected output: Array ["duck","camel"]
+        </p>
+        <script>
+            let arr = ["5", "4", "6", "5", "6", "4", "3", "F", "O", "O", "O", "T", "O", "F", "O", "O", "R", "O", "O", "T", "O"];
+            // ESCRIBE TU CÓDIGO AQUÍ
+            for (i = 0; i < arr.length; i++){
+                for (j = i+2; j <  arr.length; j++){
+                    if (arr[i] == arr[j]){
+                        arr2 = arr.slice(i,j+1);
+                        if (ifPalindrome(arr2)){
+                            console.log(arr2);
+                        }
+                    }
+                }
+            }
+
+            function ifPalindrome(arr2){
+                if (arr2.length == 0){
+                    return false;
+                }            
+                for (k = 0; k < arr2.length; k++){
+                    let a = arr2[k];
+                    let b = arr2[arr2.length -1 - k];
+                    if (a != b){
+                        return false;
+                    }
+                }
+                return true;
+            }
+        </script>
+    </body>
+</html>
