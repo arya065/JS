@@ -22,9 +22,6 @@
             iniEmptyMatrix(block);
             findWall();
             
-
-
-            
             /*
             чтобы узнать что есть отделение, надо пройтись по верхнему ряду (затем по левому, затем по правому),
             при нахождении "R", нужно проверить все направления на наличие "R".
@@ -35,6 +32,7 @@
             Если найден "A", проверяем другую сторону, если там тоже найдена "А", вывод
             Если "А" не найдена в первой или второй, вывод
             */
+
             function iniEmptyMatrix (matrix){
                 for (let i = 0; i < 9; i++) {
                     const row = [];
@@ -127,47 +125,6 @@
                 return result;
             }
 
-        // if (goVer() || goHor()){
-        //     console.log("Ganan los rusos");
-        // } else{
-        //     console.log("Ganan los alemanes");
-        // }
-        // function goVer(){
-        //     for(i = 0; i < 9; i++){
-        //         if (arr[0][i] == "R"){
-        //             if(goY(i)){
-        //                 return true;
-        //             }
-        //         }
-        //     }
-        //     return false;
-        // }
-        // function goY(x){
-        //     for (i = 0; i < 9; i++){
-        //         if(arr[i][x] != "R"){
-        //             return false;
-        //         }
-        //     }
-        //     return true;
-        // }
-        // function goX(y){
-        //     for (i = 0; i < 9; i++){
-        //         if(arr[y][i] != "R"){
-        //             return false;
-        //         }
-        //     }
-        //     return true;
-        // }
-        // function goHor(){
-        //     for(i = 0; i < 9; i++){
-        //         if (arr[i][0] == "R"){
-        //             if(goX(i)){
-        //                 return true;
-        //             }
-        //         }
-        //     }
-        //     return false;
-        // }
     </script>
     </body>
 </html>
