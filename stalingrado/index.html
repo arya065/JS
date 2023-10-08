@@ -1,39 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
-    </head>
-    <body>
-        <script>
-            let arr = [
-                [" "," "," "," "," "," "," "," "," "],
-                [" ","R","R","R","R","R","R"," "," "],
-                [" ","R"," ","R"," "," ","R"," "," "],
-                [" ","R"," ","R"," "," ","R"," "," "],
-                [" ","R","R","R","R","R","R"," "," "],
-                [" ","R"," "," "," "," "," "," "," "],
-                [" ","R"," "," "," "," "," "," "," "],
-                [" ","R"," "," "," "," "," "," "," "],
-                [" "," "," "," "," "," "," "," "," "],
-            ];
-            let block = [];
-            iniEmptyMatrix(block);
-            findWall();
-            
-            /*
-            чтобы узнать что есть отделение, надо пройтись по верхнему ряду (затем по левому, затем по правому),
-            при нахождении "R", нужно проверить все направления на наличие "R".
-            При нахождении "R", запускаем проверку дальше до левой/правой/нижней/верхней стенки.
-            Сохраняем до какой стенки дошли, если такой нет, то вывод.
-            Сохраняем позиции "R", которые создали стенку,(может не надо)
-            проверяем обе стороны от стенки на наличие "R". 
-            Если найден "A", проверяем другую сторону, если там тоже найдена "А", вывод
-            Если "А" не найдена в первой или второй, вывод
-            */
 
-            function iniEmptyMatrix (matrix){
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        let arr = [
+            [" ", "A", " ", " ", " ", " ", " ", " ", " "],
+            ["R", "R", "R", "R", "R", "R", "R", " ", " "],
+            [" ", "R", " ", "R", " ", " ", "R", "R", " "],
+            [" ", "R", " ", "R", " ", " ", "R", " ", " "],
+            [" ", "R", "R", "R", "R", "R", "R", " ", " "],
+            [" ", "R", " ", " ", " ", " ", " ", " ", " "],
+            [" ", "R", " ", " ", " ", " ", " ", " ", " "],
+            [" ", "R", " ", " ", " ", " ", " ", " ", " "],
+            [" ", " ", " ", " ", " ", " ", " ", " ", "A"],
+        ];
+        console.log(findA());
+        let pos = findA();
+        let posX = parseInt(pos.charAt(0));
+        let posY = parseInt(pos.charAt(2));
+        // sphere(posX, posY);
+
+        if (sphere(posX, posY)) {
+            console.log("A win");
+        } else {
+            console.log("R win");
+        }
+
+
+        /*
+        находим 2 группы А
+        поиск А* - расширяющаяся сфера
+        */
+
+        function sphere(x, y, result) {
+            arr[x][y] = "-";
+            try {
+                if ((arr[x][y + 1] == "A") || (arr[x][y - 1] == "A") || (arr[x + 1][y] == "A")) {
+                    // console.log("A win");
+                    result = true;
+                }
+            } catch (TypeError) {
+                console.log("arr index out of bounds");
+            }
+            if (result) {
+                // console.log("A win");
+                return true;
+            }
+            try {
+                if (arr[x][y + 1] == " ") {
+                    // arr[x][y] = "-";
+                    return sphere(x, y + 1, false);
+                }
+                if (arr[x][y - 1] == " ") {
+                    // arr[x][y] = "-";
+                    return sphere(x, y - 1, false);
+                }
+                if (arr[x + 1][y] == " ") {
+                    // arr[x][y] = "-";
+                    return sphere(x + 1, y, false);
+                }
+            } catch (TypeError) {
+                console.log("arr index out of bounds");
+            }
+        }
+        function findA() {
+            for (i = 0; i < arr.length; i++) {
+                for (j = 0; j < arr[i].length; j++) {
+                    if (arr[i][j] == "A") {
+                        let volv = i + ";" + j;
+                        return volv;
+                    }
+                }
+            }
+        }
+
+        /*
+        чтобы узнать что есть отделение, надо пройтись по верхнему ряду (затем по левому, затем по правому),
+        при нахождении "R", нужно проверить все направления на наличие "R".
+        При нахождении "R", запускаем проверку дальше до левой/правой/нижней/верхней стенки.
+        Сохраняем до какой стенки дошли, если такой нет, то вывод.
+        Сохраняем позиции "R", которые создали стенку,(может не надо)
+        проверяем обе стороны от стенки на наличие "R". 
+        Если найден "A", проверяем другую сторону, если там тоже найдена "А", вывод
+        Если "А" не найдена в первой или второй, вывод
+        */
+        function findR() { //not work
+
+            function iniEmptyMatrix(matrix) {
                 for (let i = 0; i < 9; i++) {
                     const row = [];
                     for (let j = 0; j < 9; j++) {
@@ -43,88 +102,89 @@
                 }
             }
 
-            function findWall(){
+            function findWall() {
                 findTop();
                 findLeft();
                 findBot();
                 findRight();
                 findEach2Row();
             }
-            function findTop(){
-                for (i = 0; i < 9; i++){
-                    if (arr[0][i] == "R"){
-                        findNext(0,i,false," "," ");
+            function findTop() {
+                for (i = 0; i < 9; i++) {
+                    if (arr[0][i] == "R") {
+                        findNext(0, i, false, " ", " ");
                         console.log("true");
                     }
                 }
             }
-            function findLeft(){
-                for (i = 0; i < 9; i++){
-                    if (arr[i][0] == "R"){
-                        findNext(i,0,false," "," ");
+            function findLeft() {
+                for (i = 0; i < 9; i++) {
+                    if (arr[i][0] == "R") {
+                        findNext(i, 0, false, " ", " ");
                         console.log("true");
                     }
                 }
             }
-            function findBot(){
-                for (i = 0; i < 9; i++){
-                    if (arr[8][i] == "R"){
-                        findNext(8,i,false," ", " ");
+            function findBot() {
+                for (i = 0; i < 9; i++) {
+                    if (arr[8][i] == "R") {
+                        findNext(8, i, false, " ", " ");
                         console.log("true");
                     }
                 }
             }
-            function findRight(){
-                for (i = 0; i < 9; i++){
-                    if (arr[i][8] == "R"){
-                        findNext(i,8,false," "," ");
+            function findRight() {
+                for (i = 0; i < 9; i++) {
+                    if (arr[i][8] == "R") {
+                        findNext(i, 8, false, " ", " ");
                         console.log("true");
                     }
                 }
             }
-            function findEach2Row(){
-                for (i = 0; i < 9; i+=2){
-                    for (j = 1; j < 8; j++){
-                        if (arr[i][j] == "R"){
-                            findNext(i,j,false," "," ");
+            function findEach2Row() {
+                for (i = 0; i < 9; i += 2) {
+                    for (j = 1; j < 8; j++) {
+                        if (arr[i][j] == "R") {
+                            findNext(i, j, false, " ", " ");
                             console.log("true");
                         }
                     }
                 }
             }
-            function findNext(x,y,result,current,previous){
-                if (x > 8 || y > 8 || y < 0 || x < 0){
+            function findNext(x, y, result, current, previous) {
+                if (x > 8 || y > 8 || y < 0 || x < 0) {
                     return true; //we have a wall
                 }
-                if (i == 3 && y == 5){
-                    console.log("here we go again");
-                }
+                // if (i == 3 && y == 5){
+                //     console.log("here we go again");
+                // }
                 block[x][y] = "R";
                 //check directions to find next "R" to the right
-                try{
-                    if (x>0 && arr[x-1][y] == "R" && previous != "top" && current != "top"){//top
-                        result = findNext(x-1,y,result,"down","down");
-                    }else if (x>0 && y < 8 &&arr[x-1][y+1] == "R" && previous != "top" && current != "right-top"){//right-top
-                        result = findNext(x-1,y+1,result,"left-down","down");
-                    }else if (y < 8 && arr[x][y+1] == "R" && previous != "right" && current != "right"){//right
-                        result = findNext(x,y+1,result,"left",current);
-                    }else if (x<8 && y < 8 && arr[x+1][y+1] == "R" && previous != "down" && current != "right-down"){//right-down
-                        result = findNext(x+1,y+1,result,"left-top","top");
-                    }else if (x<8 && y > 0 && arr[x+1][y] == "R" && previous != "down" && current != "down"){//down
-                        result = findNext(x+1,y,result,"top","top");
-                    }else if (x<8 && arr[x+1][y-1] == "R" && previous != "down" && current != "left-down"){//left-down
-                        result = findNext(x+1,y-1,result,"right-top","top");
-                    }else if (y > 0 && arr[x][y-1] == "R" && previous != "left" && current != "left"){//left
-                        result = findNext(x,y-1,result, "right",current);
-                    }else if (x>0 && y > 0 && arr[x-1][y-1] == "R" && previous != "top" && current != "left-top"){//left-top
-                        result = findNext(x-1,y-1,result, "right-down","dowm");
+                try {
+                    if (x > 0 && arr[x - 1][y] == "R" && previous != "top" && current != "top") {//top
+                        result = findNext(x - 1, y, result, "down", "down");
+                    } else if (x > 0 && y < 8 && arr[x - 1][y + 1] == "R" && previous != "top" && current != "right-top") {//right-top
+                        result = findNext(x - 1, y + 1, result, "left-down", "down");
+                    } else if (y < 8 && arr[x][y + 1] == "R" && previous != "right" && current != "right") {//right
+                        result = findNext(x, y + 1, result, "left", current);
+                    } else if (x < 8 && y < 8 && arr[x + 1][y + 1] == "R" && previous != "down" && current != "right-down") {//right-down
+                        result = findNext(x + 1, y + 1, result, "left-top", "top");
+                    } else if (x < 8 && y > 0 && arr[x + 1][y] == "R" && previous != "down" && current != "down") {//down
+                        result = findNext(x + 1, y, result, "top", "top");
+                    } else if (x < 8 && arr[x + 1][y - 1] == "R" && previous != "down" && current != "left-down") {//left-down
+                        result = findNext(x + 1, y - 1, result, "right-top", "top");
+                    } else if (y > 0 && arr[x][y - 1] == "R" && previous != "left" && current != "left") {//left
+                        result = findNext(x, y - 1, result, "right", current);
+                    } else if (x > 0 && y > 0 && arr[x - 1][y - 1] == "R" && previous != "top" && current != "left-top") {//left-top
+                        result = findNext(x - 1, y - 1, result, "right-down", "dowm");
                     }
-                } catch (TypeError){
+                } catch (TypeError) {
                     result = false;
                 }
                 return result;
             }
-
+        }
     </script>
-    </body>
+</body>
+
 </html>
