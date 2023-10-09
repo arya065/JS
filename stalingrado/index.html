@@ -1,36 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
 
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
-    </head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
 
-    <body>
-        <script>
+<body>
+    <script>
         let arr = [
-            [" ", " ", "R", " ", " ", " ", "R", " ", " "],
-            [" ", "R", "A", "R", "R", "R", "R", " ", " "],
-            [" ", "R", " ", "R", " ", " ", "R", " ", " "],
-            [" ", "R", " ", " ", " ", " ", "R", " ", " "],
+            ["A", "A", "R", " ", " ", " ", "R", " ", " "],
+            ["A", "R", "A", "R", "R", "R", "R", " ", " "],
+            ["A", "R", "A", "R", " ", " ", "R", " ", " "],
+            [" ", "R", "A", "A", " ", " ", "R", " ", " "],
             [" ", "R", "R", "R", "R", "R", "R", " ", " "],
             [" ", "R", " ", " ", " ", " ", " ", " ", " "],
-            [" ", "R", " ", " ", " ", " ", " ", " ", " "],
-            [" ", "R", " ", " ", " ", " ", " ", " ", " "],
-            [" ", "R", " ", " ", " ", " ", " ", " ", "A"],
+            [" ", "R", " ", " ", " ", " ", " ", "A", "A"],
+            [" ", "R", " ", " ", " ", " ", " ", "A", "A"],
+            [" ", "R", " ", " ", " ", " ", " ", "A", "A"],
         ];
+
+
+        let posAlemanes = [];
         let pos = findA();
-        let posX = parseInt(pos.charAt(0));
-        let posY = parseInt(pos.charAt(2));
-        // sphere(posX, posY);
+        correctGroups(parseInt(pos.charAt(0)), parseInt(pos.charAt(2)));
 
-        if (sphere(posX, posY,false)) {
-            console.log("Alemanes win");
+        if (pos != undefined) {
+            do {
+                correctGroups(parseInt(pos.charAt(0)), parseInt(pos.charAt(2)));
+                posAlemanes.push(pos);
+                pos = findA();
+            } while (pos != undefined);
+
+            for (i = 0; i < posAlemanes.length; i++) {
+                let posX = parseInt(parseInt(posAlemanes[i].charAt(0)));
+                let posY = parseInt(parseInt(posAlemanes[i].charAt(2)));
+                arr[posX][posY] = "A";
+            }
+
+            let history = true;
+            for (i = 0; i < posAlemanes.length; i++) {
+                if (sphere(parseInt(posAlemanes[i].charAt(0)), parseInt(posAlemanes[i].charAt(2)), false)) {
+                    history = false;
+                    break;
+                }
+            }
+
+
+            if (!history) {
+                console.log("Alemanes win");
+            } else {
+                console.log("Rusos win");
+            }
+
         } else {
-            console.log("Rusos win");
+            console.log("No hay alemanes");
         }
-
 
         /*
         находим 2 группы А
@@ -41,36 +67,35 @@
             arr[x][y] = "-";
             try {
                 if ((arr[x][y + 1] == "A") || (arr[x][y - 1] == "A") || (arr[x + 1][y] == "A")) {
-                    // console.log("A win");
                     result = true;
                     return true;
-                } 
+                }
             } catch (TypeError) {
-                console.log("arr index out of bounds");
+                // console.log("arr index out of bounds");
             }
             try {
                 if (arr[x][y + 1] == " ") {
-                    if(sphere(x, y + 1, result)){//right
+                    if (sphere(x, y + 1, result)) {//right
                         result = true;
                     }
                 }
                 if (arr[x][y - 1] == " ") {//left
-                    if(sphere(x, y - 1, result)){
+                    if (sphere(x, y - 1, result)) {
                         result = true;
                     }
                 }
                 if (arr[x + 1][y] == " ") {//down
-                    if(sphere(x+1, y, result)){
+                    if (sphere(x + 1, y, result)) {
                         result = true;
                     }
                 }
                 if (arr[x - 1][y] == " ") {//top
-                    if(sphere(x-1, y, result)){
+                    if (sphere(x - 1, y, result)) {
                         result = true;
                     }
                 }
             } catch (TypeError) {
-                console.log("arr index out of bounds");
+                // console.log("arr index out of bounds");
             }
             return result;
         }
@@ -82,6 +107,32 @@
                         return volv;
                     }
                 }
+            }
+        }
+        function correctGroups(x, y) {
+            arr[x][y] = " ";
+            try {
+                if ((arr[x][y + 1] != "A") && (arr[x][y - 1] != "A") && (arr[x + 1][y] != "A") && (arr[x - 1][y] != "A")) {
+                    return true;
+                }
+            } catch (TypeError) {
+                // console.log("arr index out of bounds");
+            }
+            try {
+                if (arr[x][y + 1] == "A") {//bottom
+                    correctGroups(x, y + 1);
+                }
+                if (arr[x][y - 1] == "A") {//left
+                    correctGroups(x, y - 1);
+                }
+                if (arr[x + 1][y] == "A") {//down
+                    correctGroups(x + 1, y);
+                }
+                if (arr[x - 1][y] == "A") {//top
+                    correctGroups(x - 1, y);
+                }
+            } catch (TypeError) {
+                // console.log("arr index out of bounds");
             }
         }
 
@@ -190,6 +241,6 @@
             }
         }
     </script>
-    </body>
+</body>
 
 </html>
