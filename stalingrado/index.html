@@ -1,35 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+    </head>
 
-<body>
-    <script>
+    <body>
+        <script>
         let arr = [
-            [" ", "A", " ", " ", " ", " ", " ", " ", " "],
-            ["R", "R", "R", "R", "R", "R", "R", " ", " "],
-            [" ", "R", " ", "R", " ", " ", "R", "R", " "],
+            [" ", " ", "R", " ", " ", " ", "R", " ", " "],
+            [" ", "R", "A", "R", "R", "R", "R", " ", " "],
             [" ", "R", " ", "R", " ", " ", "R", " ", " "],
+            [" ", "R", " ", " ", " ", " ", "R", " ", " "],
             [" ", "R", "R", "R", "R", "R", "R", " ", " "],
             [" ", "R", " ", " ", " ", " ", " ", " ", " "],
             [" ", "R", " ", " ", " ", " ", " ", " ", " "],
             [" ", "R", " ", " ", " ", " ", " ", " ", " "],
-            [" ", " ", " ", " ", " ", " ", " ", " ", "A"],
+            [" ", "R", " ", " ", " ", " ", " ", " ", "A"],
         ];
-        console.log(findA());
         let pos = findA();
         let posX = parseInt(pos.charAt(0));
         let posY = parseInt(pos.charAt(2));
         // sphere(posX, posY);
 
-        if (sphere(posX, posY)) {
-            console.log("A win");
+        if (sphere(posX, posY,false)) {
+            console.log("Alemanes win");
         } else {
-            console.log("R win");
+            console.log("Rusos win");
         }
 
 
@@ -44,30 +43,36 @@
                 if ((arr[x][y + 1] == "A") || (arr[x][y - 1] == "A") || (arr[x + 1][y] == "A")) {
                     // console.log("A win");
                     result = true;
-                }
+                    return true;
+                } 
             } catch (TypeError) {
                 console.log("arr index out of bounds");
-            }
-            if (result) {
-                // console.log("A win");
-                return true;
             }
             try {
                 if (arr[x][y + 1] == " ") {
-                    // arr[x][y] = "-";
-                    return sphere(x, y + 1, false);
+                    if(sphere(x, y + 1, result)){//right
+                        result = true;
+                    }
                 }
-                if (arr[x][y - 1] == " ") {
-                    // arr[x][y] = "-";
-                    return sphere(x, y - 1, false);
+                if (arr[x][y - 1] == " ") {//left
+                    if(sphere(x, y - 1, result)){
+                        result = true;
+                    }
                 }
-                if (arr[x + 1][y] == " ") {
-                    // arr[x][y] = "-";
-                    return sphere(x + 1, y, false);
+                if (arr[x + 1][y] == " ") {//down
+                    if(sphere(x+1, y, result)){
+                        result = true;
+                    }
+                }
+                if (arr[x - 1][y] == " ") {//top
+                    if(sphere(x-1, y, result)){
+                        result = true;
+                    }
                 }
             } catch (TypeError) {
                 console.log("arr index out of bounds");
             }
+            return result;
         }
         function findA() {
             for (i = 0; i < arr.length; i++) {
@@ -185,6 +190,6 @@
             }
         }
     </script>
-</body>
+    </body>
 
 </html>
