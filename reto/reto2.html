@@ -1,0 +1,95 @@
+<html>
+
+<head>
+    <title>retos JavaScript</title>
+</head>
+
+<body>
+    <h1>retos JavaScript</h1>
+    <script>
+        var cars = ["Saab", "Volvo", "BMW", ["Honda", "Toyota", ["Lexus", "Mercedes", "Lada"], "Hyunday"]];
+        var carrakos = ["Chevrolet", "Tesla", "BMW", ["Honda", "Infiniti", ["Lexus", "Mercedes", "Kia"], "Hyunday"], ["Mazda", "Mercedes", "Jeep", ["KTM", "Nissan", "Isuzu"]]];
+        //Alguien sabe hacer una lista única de coches con los dos arrays (sin repeticiones)?
+        //variant 1
+        let list = new Set();
+        cars = cars.flat(Infinity);
+        carrakos = carrakos.flat(Infinity);
+        cars.forEach((e) => list.add(e));
+        carrakos.forEach((e) => list.add(e));
+        //variant2
+        function BFSAlg(array) {
+            array.forEach((e) => {
+                if (e instanceof Array) {
+                    BFSAlg(e);
+                } else {
+                    flatArr.push(e);
+                }
+            });
+        }
+        console.log(list);
+
+        //Alguien sabría decirme los coches de carrakos que no estén en cars?
+        let list2 = new Set();
+        cars.forEach((e) => list2.add(e));
+        console.log("Carrakos not cars");
+        carrakos.forEach((e) => {
+            if (!list2.has(e)) {
+                console.log(e);
+            }
+
+        })
+
+
+
+        // var cars = ["Saab", "Volvo", "BMW", ["Honda", "Toyota", ["Lexus", "Mercedes", "Lada"], "Hyunday"]];
+        var buddies = [
+            {
+                firstName: "Chuck",
+                lastName: "Norris",
+                car: "Honda"
+            },
+            {
+                firstName: "Yakie",
+                lastName: "Chang",
+                car: "BMV"
+            },
+            {
+                firstName: "Bruce",
+                lastName: "Lee",
+                car: "Honda"
+            },
+            {
+                firstName: "Steven",
+                lastName: "Seagal",
+                car: "Lada"
+            }
+        ];
+        //-Nombre y apellidos de los buddies que usan un Honda
+        console.log("Honda Lovers:");
+        let hondaOneLove = buddies.filter((e) => e.car == "Honda");
+        hondaOneLove.forEach((e) => console.log(e.firstName, " ", e.lastName));
+        //-Marcas utilizadas por los buddies
+        let marks = new Set();
+        buddies.forEach((e) => marks.add(e.car));
+        //-Marcas no utilizadas por los buddies.
+        console.log("My buddies hate it:");
+        cars.forEach((e) => {
+            if (!marks.has(e)) {
+                console.log(e);
+            }
+        });
+        //-Cuantas marcas han sido utilizadas
+        console.log("We use " , marks.size, " marks");
+        //-Cuantas marcas no han sido utilizadas
+        let counter = 0;
+        cars.forEach((e) => {
+            if (!marks.has(e)) {
+                counter++;
+            }
+        });
+        console.log(counter);
+
+    </script>
+</body>
+
+</html>
