@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <p id="result"></p>
+        <script>
+            
+            var valumnos = {
+            "alumnos": [{
+            "nombre": "Fulanito",
+            "notas": {
+            "DWEC": 8,
+            "DWESE": 0.71,
+            "ED": 7.04,
+            "SSOO": 3.37,
+            "BBDD": 0.22,
+            "PROG": 1.09,
+            "EINEM": 6.17
+            }
+            },
+            {
+            "nombre": "Menganito",
+            "notas": {
+            "DWEC": 7,
+            "DWESE": 0.71,
+            "ED": 7.04,
+            "SSOO": 3.37,
+            "BBDD": 0.22,
+            "PROG": 1.09,
+            "EINEM": 6.17
+            }
+            },
+            {
+            "nombre": "Cetanito",
+            "notas": {
+            "DWEC": 6,
+            "DWESE": 0.71,
+            "ED": 7.04,
+            "SSOO": 3.37,
+            "BBDD": 0.22,
+            "PROG": 1.09,
+            "EINEM": 6.17
+            }
+            }]};
+            let medium = 0;
+            valumnos.alumnos.forEach(element => {
+                medium += (element.notas.DWEC + element.notas.DWESE + element.notas.ED + element.notas.SSOO + element.notas.BBDD + element.notas.PROG + element.notas.EINEM)/7;
+            });
+            console.log (medium/3);
+    </script>
+    </body>
+</html>
