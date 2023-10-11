@@ -33,17 +33,12 @@
         function getName(){
             let name = document.getElementById("name").value.toLowerCase();
             name = name.charAt(0).toUpperCase() + name.slice(1);
-            console.log(name);
-            let result = findCode(name);
+            let result = arr.find(e => e.nombre === name);
             if (result != undefined){
                 document.getElementById("answer").innerHTML = result.cp;
             } else {
                 document.getElementById("answer").innerHTML = "undefined";
             }
-        }
-        function findCode(name){
-            let test =  arr.find(e => e.nombre === name);
-            return test;
         }
     </script>
     </body>
