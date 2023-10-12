@@ -1,45 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>RETO0</title>
-    </head>
-    <body>
-        <input type="text" name="name" id="name">
-        <input type="button" value="find" onclick="getName()">
-        <p id="answer">&nbsp;</p>
-        <script>
-        
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RETO0</title>
+</head>
+
+<body>
+    <input type="text" name="name" id="name">
+    <input type="button" value="find" onclick="getName()">
+    <p id="answer">&nbsp;</p>
+    <script>
+
 
         let arr = [
-        {
-            cp: 28924,
-            nombre:"Estepona"
-        },
-        {
-            cp: 28925,
-            nombre:"Malaga"
-        },
-        {
-            cp: 28926,
-            nombre:"Madrid"
-        },
-        {
-            cp: 29601,
-            nombre:"Marbella"
-        }
+            {
+                cp: 28924,
+                nombre: "Estepona"
+            },
+            {
+                cp: 28925,
+                nombre: "Malaga"
+            },
+            {
+                cp: 28926,
+                nombre: "Madrid"
+            },
+            {
+                cp: 29601,
+                nombre: "Marbella"
+            }
         ]
-        function getName(){
+        function getName() {
             let name = document.getElementById("name").value.toLowerCase();
             name = name.charAt(0).toUpperCase() + name.slice(1);
             let result = arr.find(e => e.nombre === name);
-            if (result != undefined){
+            if (result != undefined) {
                 document.getElementById("answer").innerHTML = result.cp;
             } else {
                 document.getElementById("answer").innerHTML = "undefined";
             }
         }
     </script>
-    </body>
+</body>
+
 </html>
