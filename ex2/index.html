@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>HEAVEN</title>
+    </head>
+    <body>
+        <script>
+            let mapa = [
+                ['*','*','*','*',' ','*'],
+                ['*',' ',' ',' ',' ','*'],
+                ['*',' ',' ',' ',' ','*'],
+                ['*',' ',' ',' ',' ','*'],
+                ['*','*','*','*',' ','*']
+            ];
+            heaven();
+            function heaven(){
+                console.log(mapa);
+                if ((mapa[0][0] == " ")){
+                    console.log("Semos no libres");
+                } else {
+                    if(findtunel(0,0," ")){
+                        console.log("Semos libres");
+                    } else {
+                        console.log("Semos no libres");
+                    }
+                }
+            }
+            function findtunel(x,y,previous){
+            //echo try catch para cada direccion porque es variante mas facil de comprobar los errores de index y values
+                if (x == mapa.length-1 && y == mapa[x].length-1){
+                    return true;
+                }
+                try{
+                    if (mapa[x][y+1] === "*" && previous != "left"){//right
+                        if(findtunel(x,y+1,"right")){
+                            return true;
+                        }
+                    }
+                } catch (TypeError){}
+                try{
+                    if (mapa[x+1][y] === "*" ){//down
+                        if(findtunel(x+1,y," ")){
+                            return true;
+                        }
+                    }
+                } catch (TypeError){}
+                try{
+                    if (mapa[x][y-1] === "*" && previous != "right"){//left
+                        if(findtunel(x,y-1,"left")){
+                            return true;
+                        }
+                    }
+                } catch (TypeError){}
+                return false;
+            }
+
+        </script>
+    </body>
+</html>
