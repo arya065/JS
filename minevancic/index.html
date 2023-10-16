@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
-    <body>
-        <script>
+  <body>
+    <script>
       let minas = [
         [0, 0, 0, 0, 0, 0, 0],
         [0, 1, 0, 0, 0, 0, 0],
@@ -10,6 +10,55 @@
         [0, 0, 0, 0, 0, 1, 0],
         [0, 0, 0, 0, 0, 0, 0],
       ];
+      color(minas);
+      function color(array) {
+        for (i = 0; i < array.length; i++) {
+          for (j = 0; j < array[i].length; j++) {
+            if (array[i][j] === 1) {
+              colorAround(array, i, j, 2);
+              console.log(array);
+              colorAround(array, i, j, 3);
+              console.log(array);
+              colorAround(array, i, j, 4);
+              console.log(array);
+            }
+          }
+        }
+      }
+      function colorAround(array, i, j, step) {
+        //top
+        for (k = j - step + 1; k <= j + step - 1; k++) {
+          try {
+            if (array[i - step + 1][k] > step || array[i - step + 1][k] == 0) {
+              array[i - step + 1][k] = step;
+            }
+          } catch (TypeError) {}
+        }
+        //left
+        for (k = i - step + 1; k <= i + step - 1; k++) {
+          try {
+            if (array[k][j - step + 1] > step || array[k][j - step + 1] == 0) {
+              array[k][j - step + 1] = step;
+            }
+          } catch (TypeError) {}
+        }
+        //right
+        for (k = i - step + 1; k <= i + step - 1; k++) {
+          try {
+            if (array[k][j + step - 1] > step || array[k][j + step - 1] == 0) {
+              array[k][j + step - 1] = step;
+            }
+          } catch (TypeError) {}
+        }
+        //bot
+        for (k = j - step + 1; k <= j + step - 1; k++) {
+          try {
+            if (array[i + step - 1][k] > step || array[i + step - 1][k] == 0) {
+              array[i + step - 1][k] = step;
+            }
+          } catch (TypeError) {}
+        }
+      }
     </script>
-    </body>
+  </body>
 </html>
