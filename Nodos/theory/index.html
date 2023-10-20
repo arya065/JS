@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Creación de una lista de nodos</title>
+</head>
+
+<body>
+    <ol id="lista">
+
+        <li>Coffee</li>
+        <li>Tea</li>
+        <ul>
+            <li>red</li>
+            <ul>
+                <li id="lipton">lipton</li>
+                <li>PG</li>
+                <li>Mercapower</li>
+            </ul>
+            <li>white</li>
+            <li>black</li>
+            <ul>
+                <li>lipton</li>
+                <li>PG</li>
+                <li>Mercapower</li>
+            </ul>
+        </ul>
+        <li>Milk</li>
+    </ol>
+    <script>
+        function giveMeBroda(obj) {
+            let padre = obj.parentNode;
+            let lista = [];
+            for (let i = 0; i < padre.children.length; i++) {
+                let hijo = padre.children[i];
+                if (hijo != obj) {
+                    console.log(hijo.innerHTML);
+                    lista.push(hijo.innerHTML);
+                }
+            }
+            return lista;
+        }
+        console.log(giveMeBroda(document.getElementById("lipton")))
+
+        // La función anterior recibe un objeto y tendrá que hacer lo siguiente:
+        // 1. Acceder al padre.
+        // 2. Crear una lista para ir añadiendo los hermanos
+        // 3. Visitar todos los hijos del padre e incluir a todos en la lista creada menos el nodo que
+        // se le pasa como parámetro.
+        // 4. Devolver la lista creada.
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,33 @@
+<html>
+
+<head>
+    <title>retos JavaScript</title>
+</head>
+
+<body>
+    <h1>retos JavaScript</h1>
+    <ul id="frutas"> </ul>
+    <script>
+        let frutas = ["aguacate", "pera", "manzana", "naranja", "tomate", "granada", "mango", "litchi", "nispero"];
+        // muestra las frutas como elementos li y su nodo padre será el ul frutas
+        secondVersion();
+        function firstVersion() {
+            frutas.forEach((e, index) => {
+                let child = document.createElement("li");
+                let content = document.createTextNode(e);
+                child.appendChild(content);
+                document.getElementById("frutas").appendChild(child);
+            });
+        }
+        function secondVersion(){
+            while (frutas[0] != undefined){
+                let child = document.createElement("li");
+                let content = document.createTextNode(frutas.shift());
+                child.appendChild(content);
+                document.getElementById("frutas").appendChild(child);
+            }
+        }
+    </script>
+</body>
+
+</html>

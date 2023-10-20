@@ -1,0 +1,34 @@
+<html>
+
+<head>
+    <title>retos JavaScript</title>
+</head>
+
+<body>
+    <h1>retos JavaScript</h1>
+    <ul id="carrakos"> </ul>
+
+    <script>
+        var carrakos = ["Chevrolet", "Tesla", "BMW", ["Honda", "Infiniti", ["Lexus", "Mercedes", "Kia"], "Hyunday"], ["Mazda", "Mercedes", "Jeep", ["KTM", "Nissan", "Isuzu"]]];
+        showArr(carrakos, "carrakos");
+
+
+        function showArr(array, parent) {
+            array.forEach((e, index) => {
+                if (e instanceof Array) {
+                    let string = e[0] + parent;
+                    let child = document.createElement("ul");
+                    child.id = string;
+                    document.getElementById(parent).appendChild(child);
+
+                    showArr(e, string);
+                } else {
+                    let child = document.createElement("li");
+                    let content = document.createTextNode(e);
+                    child.appendChild(content);
+                    document.getElementById(parent).appendChild(child);
+                }
+            });
+        }
+    </script>
+</body>
