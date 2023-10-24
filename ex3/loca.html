@@ -36,9 +36,9 @@ initial-scale=1.0"
       ];
       // ESCRIBE AQUÍ TU CÓDIGO
       TORTAS.forEach((e, index) => {
-        clientaTres = e;
-        numclientaTres = findCount(e, 0);
-        if (clientaUno != e || clientaDos != e || clientaTres != e) {
+        if (clientaUno != e && clientaDos != e && clientaTres != e) {
+          clientaTres = e;
+          numclientaTres = findCount(e, 0);
           if (numclientaDos < numclientaTres) {
             index = numclientaDos;
             numclientaDos = numclientaTres;
