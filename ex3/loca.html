@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width,
+initial-scale=1.0"
+    />
+    <title>LAS TORTAS LOCAS</title>
+  </head>
+  <body>
+    <script>
+      var clientaUno = "";
+      var clientaDos = "";
+      var clientaTres = "";
+      var numclientaUno = 0;
+      var numclientaDos = 0;
+      var numclientaTres = 0;
+      const TORTAS = [
+        "Rodica",
+        "Emma",
+        "Sofia",
+        "Marina",
+        "Valia",
+        "Valia",
+        "Valia",
+        "Valia",
+        "Valia",
+        "Valia",
+        "Emma",
+        "Emma",
+        "Maria",
+        "Marina",
+        "Emma",
+      ];
+      // ESCRIBE AQUÍ TU CÓDIGO
+      TORTAS.forEach((e, index) => {
+        clientaTres = e;
+        numclientaTres = findCount(e, 0);
+        if (clientaUno != e || clientaDos != e || clientaTres != e) {
+          if (numclientaDos < numclientaTres) {
+            index = numclientaDos;
+            numclientaDos = numclientaTres;
+            numclientaTres = index;
+
+            index = clientaDos;
+            clientaDos = clientaTres;
+            clientaTres = index;
+          }
+          if (numclientaUno < numclientaDos) {
+            index = numclientaUno;
+            numclientaUno = numclientaDos;
+            numclientaDos = index;
+
+            index = clientaUno;
+            clientaUno = clientaDos;
+            clientaDos = index;
+          }
+        }
+      });
+
+      function findCount(cliente, counter) {
+        TORTAS.filter((e) => {
+          if (e == cliente) {
+            counter++;
+          }
+        });
+        return counter;
+      }
+
+      console.log(clientaUno + ":" + numclientaUno);
+      console.log(clientaDos + ":" + numclientaDos);
+      console.log(clientaTres + ":" + numclientaTres);
+    </script>
+  </body>
+</html>
