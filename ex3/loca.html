@@ -37,30 +37,33 @@ initial-scale=1.0"
       // ESCRIBE AQUÍ TU CÓDIGO
       TORTAS.forEach((e, index) => {
         if (clientaUno != e && clientaDos != e && clientaTres != e) {
-          clientaTres = e;
-          numclientaTres = findCount(e, 0);
-          if (numclientaDos < numclientaTres) {
-            index = numclientaDos;
-            numclientaDos = numclientaTres;
-            numclientaTres = index;
+          index = findCount(e);
+          if (index > numclientaTres) {
+            clientaTres = e;
+            numclientaTres = findCount(e);
+            if (numclientaDos < numclientaTres) {
+              index = numclientaDos;
+              numclientaDos = numclientaTres;
+              numclientaTres = index;
 
-            index = clientaDos;
-            clientaDos = clientaTres;
-            clientaTres = index;
-          }
-          if (numclientaUno < numclientaDos) {
-            index = numclientaUno;
-            numclientaUno = numclientaDos;
-            numclientaDos = index;
+              index = clientaDos;
+              clientaDos = clientaTres;
+              clientaTres = index;
+            }
+            if (numclientaUno < numclientaDos) {
+              index = numclientaUno;
+              numclientaUno = numclientaDos;
+              numclientaDos = index;
 
-            index = clientaUno;
-            clientaUno = clientaDos;
-            clientaDos = index;
+              index = clientaUno;
+              clientaUno = clientaDos;
+              clientaDos = index;
+            }
           }
         }
       });
 
-      function findCount(cliente, counter) {
+      function findCount(cliente, counter = 0) {
         TORTAS.filter((e) => {
           if (e == cliente) {
             counter++;
