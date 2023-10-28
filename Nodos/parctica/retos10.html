@@ -7,15 +7,50 @@
 
 <body>
     <script>
-        var vikings = {
-            "vikingos": [
-                { "reino": "Noruega", "reyes": ["Hakon", "Harald", "Ivar", "Olaf", "Bjorn", "Ragnar"] },
-                { "reino": "Dinamarca", "reyes": ["Frodo", "Hamming", "Angantyr", "Horik"] }
-            ]
+        var vikings = '{"vikingos": [{ "reino": "Noruega", "reyes": ["Hakon", "Harald", "Ivar", "Olaf", "Bjorn", "Ragnar"] },{ "reino": "Dinamarca", "reyes": ["Frodo", "Hamming", "Angantyr", "Horik"] }]}';
+        var vikings2 = {
+            "vikingos":
+                [
+                    {
+                        "reino":
+                            "Noruega",
+                        "reyes":
+                            [
+                                "Hakon",
+                                "Harald",
+                                "Ivar",
+                                "Olaf",
+                                "Bjorn",
+                                "Ragnar"
+                            ]
+                    },
+                    {
+                        "reino":
+                            "Dinamarca",
+                        "reyes":
+                            [
+                                "Frodo",
+                                "Hamming",
+                                "Angantyr",
+                                "Horik"
+                            ]
+                    }
+                ]
         };
+
+        let json = JSON.parse(vikings);
+        console.log(longLiveTheKing("Horik"));
         // skriv inn koden din her. Vær forsiktig med at json-en jukser. Det er ikke en matrise, men et objekt.
         function longLiveTheKing(name) {
-
+            let result = false;
+            json.vikingos.forEach(e => {
+                e.reyes.forEach((f) => {
+                    if (f == name) {
+                        result = true;
+                    }
+                });
+            });
+            return result;
         }
     </script>
 </body>
