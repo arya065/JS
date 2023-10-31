@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>INTERSECTION LIST</title>
+  </head>
+  <body>
+    PRIMERA LISTA:
+    <ul id="lista1">
+      <li>manzana</li>
+      <li>pera</li>
+      <ul>
+        <li>conferencia</li>
+        <ul>
+          <li>conferenciaverde</li>
+          <li>conferenciaamarilla</li>
+          <li>conferenciaroja</li>
+        </ul>
+        <li>peradeagua</li>
+        <li>peritadulce</li>
+        <ul>
+          <li>Dimas</li>
+          <li>Gestas</li>
+          <li>Malakatos</li>
+          <li>Jose</li>
+        </ul>
+      </ul>
+      <li>limon</li>
+      <li>limon</li>
+      <li>LIMON</li>
+    </ul>
+    Segunda lista:
+    <ul id="lista2">
+      <li>manzana</li>
+      <li>manzana</li>
+      <li>manzana</li>
+      <li>manzana</li>
+      <li>pera</li>
+      <li>limon</li>
+    </ul>
+
+    <script>
+      //el contenido del script lo colocaré aquí
+      console.log(joinLists(getList("lista1"), getList("lista2")));
+
+      function joinLists(list1, list2) {
+        let inter = [];
+        list1.map((e) => {
+          if ((list2.find((f) => e.innerText == f.innerText)) && !(inter.find((f) => f == e.innerText))) {
+            inter.push(list2.find((f) => f.innerText == e.innerText).innerText);
+          }
+        });
+        return inter.sort();
+      }
+      function getList(id) {
+        const ul = document.getElementById(id); // Получаем элемент <ul id="">
+        let result = Array.from(ul.getElementsByTagName("li")); // Получаем массив элементов <li>
+        result.forEach((e) => (e.innerText = e.innerText.toLowerCase()));
+        return result;
+      }
+      const inserta = (desde, hasta) => {
+        if (desde.nodeName == "LI") {
+          hasta.push(desde.innerHTML.toUpperCase());
+        } else {
+          for (let i = 0; i < desde.children.length; i++)
+            inserta(desde.children[i], hasta);
+        }
+      };
+    </script>
+  </body>
+</html>
