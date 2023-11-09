@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,
+initial-scale=1.0">
+    <title>MONGUER KING</title>
+</head>
+
+<body>
+    <p>
+        let array = ["perico","juanico","andres"]; <br />
+        Array.isArray(array); // true
+    </p>
+    <script>
+        const REYES =
+            [
+                "Chindatore",
+                ["Chindasvinto", "Rencesvinto", "Lautaro"],
+                ["Lauro", "Sisebuto",
+                    ["Fracisbuto", "Vigafredo",
+                        ["Leovigildo"]
+                    ]
+                ],
+                "Amalarico II"
+            ];
+        var monguers = [];
+        let monguersKnown = ["Chindasvinto", "Amalarico II"];
+        monguers = monguersKnown;
+        function findMonguer(array, par) {
+            // ESCRIBE TU CÓDIGO AQUÍ
+            array.map(e => {
+                if (e instanceof Array && !par) {
+                    findMonguer(e, !par);
+                } else if (!(e instanceof Array) && par) {
+                    let contain = false;
+                    monguers.map(f => {
+                        if (f == e) {
+                            contain = true;
+                        }
+                    });
+                    if (!contain) {
+                        monguers.push(e);
+                    }
+                } else if (e instanceof Array) {
+                    findMonguer(e, !par);
+                }
+            });
+        }
+
+        console.log("REYES: " + REYES);
+        findMonguer(REYES, false);
+        // monguers = joinArr(monguers, monguersKnown);
+        console.log("MONGUERS: " + monguers);
+    </script>
+</body>
+
+</html>
