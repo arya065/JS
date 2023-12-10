@@ -3,10 +3,12 @@ import React from 'react';
 class Table extends React.Component {
     constructor(props) {
         super(props);
+        // здесь добавили стили и сгенерированный массив
         this.state = { on: "red", off: "green", array: this.fillArr() };
         this.fillArr = this.fillArr.bind(this);
         this.press = this.press.bind(this);
     }
+    // создание массива единиц
     fillArr() {
         let array = [];
         for (let i = 0; i < 10; i++) {
@@ -27,6 +29,7 @@ class Table extends React.Component {
         }
         console.log(event);
     }
+    // два метода для увеличения и уменьшения счётчика
     increment() {
 
     }
@@ -47,6 +50,7 @@ class Table extends React.Component {
                 <button onClick={this.press} style={{ backgroundColor: this.state.off }}>4</button>
                 <button onClick={this.press} style={{ backgroundColor: this.state.off }}>5</button>
                 <br />
+                {/* это перебор массива */}
                 {this.state.array.map((el, index) => (
                     <button key={index}>{el}</button>
                 ))}
