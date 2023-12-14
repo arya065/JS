@@ -51,9 +51,20 @@ class Table extends React.Component {
                 <button onClick={this.press} style={{ backgroundColor: this.state.off }}>5</button>
                 <br />
                 {/* это перебор массива */}
-                {this.state.array.map((el, index) => (
-                    <button key={index}>{el}</button>
-                ))}
+                <table>
+                    <tbody>
+                        {this.state.array.map((el, index) => (
+                            // <br>
+                            <React.Fragment>
+                                <tr>
+                                    <button key={index}>{el}</button>
+                                </tr>
+                                <br />
+                            </React.Fragment>
+
+                        ))};
+                    </tbody>
+                </table>
                 <br />
                 <button onClick={this.decrement}>{"<<"}</button>
                 <button onClick={this.increment}>{">>"}</button>

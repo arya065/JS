@@ -19,3 +19,8 @@ code {
 .off {
   background-color: green;
 }
+
+.darktheme {
+  background-color: black;
+  color: white;
+}
