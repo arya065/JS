@@ -29,6 +29,7 @@ class Table extends React.Component {
         for (let i = 0; i < 10; i++) {
             array[i] = [];
             for (let j = 0; j < 10; j++) {
+                // add percent of mines
                 let num = Math.floor(Math.random() * 5);
                 if (num != 1) {
                     num = 0;
@@ -52,11 +53,11 @@ class Table extends React.Component {
     incrementX() {
         let newArr = this.state.current;
         if (newArr[0] == 9 && newArr[1] == 9) {
-            newArr[0] = 0;
+            newArr[0] = 9;
             newArr[1] = 0;
         } else {
             if (newArr[1] >= 9) {
-                newArr[0] += 1;
+                // newArr[0] += 1;
                 newArr[1] = 0;
             } else {
                 newArr[1] += 1;
@@ -73,11 +74,11 @@ class Table extends React.Component {
     decrementX() {
         let newArr = this.state.current;
         if (newArr[0] == 0 && newArr[1] == 0) {
-            newArr[0] = 9;
+            newArr[0] = 0;
             newArr[1] = 9;
         } else {
             if (newArr[1] <= 0) {
-                newArr[0] -= 1;
+                // newArr[0] -= 1;
                 newArr[1] = 9;
             } else {
                 newArr[1] -= 1;
