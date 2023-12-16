@@ -14,11 +14,11 @@ code {
 }
 
 .on {
-  background-color: red;
+  background-color: green;
 }
 
 .off {
-  background-color: green;
+  background-color: grey;
 }
 
 .darktheme {

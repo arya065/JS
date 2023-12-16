@@ -29,7 +29,11 @@ class Table extends React.Component {
         for (let i = 0; i < 10; i++) {
             array[i] = [];
             for (let j = 0; j < 10; j++) {
-                array[i][j] = Math.floor(Math.random() * 2);
+                let num = Math.floor(Math.random() * 5);
+                if (num != 1) {
+                    num = 0;
+                }
+                array[i][j] = num;
             }
         }
         array[9][0] = 0;
@@ -133,12 +137,12 @@ class Table extends React.Component {
         // this.printArray();
         return (
             <div>
-                <button onClick={this.press} style={{ backgroundColor: this.state.on }}>1</button>
+                {/* <button onClick={this.press} style={{ backgroundColor: this.state.on }}>1</button>
                 <button onClick={this.press} style={{ backgroundColor: this.state.off }}>2</button>
                 <button onClick={this.press} style={{ backgroundColor: this.state.off }}>3</button>
                 <button onClick={this.press} style={{ backgroundColor: this.state.off }}>4</button>
                 <button onClick={this.press} style={{ backgroundColor: this.state.off }}>5</button>
-                <br />
+                <br /> */}
                 {/* это перебор массива */}
                 <table border="1px">
                     <tbody>
