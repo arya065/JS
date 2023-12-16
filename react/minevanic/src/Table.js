@@ -8,7 +8,8 @@ class Table extends React.Component {
             on: "red",
             off: "green",
             array: this.fillArr(),
-            current: [0, 0]
+            current: [9, 0],
+            win: false
         };
         this.fillArr = this.fillArr.bind(this);
         this.press = this.press.bind(this);
@@ -16,16 +17,20 @@ class Table extends React.Component {
         this.decrementX = this.decrementX.bind(this);
         this.incrementY = this.incrementY.bind(this);
         this.decrementY = this.decrementY.bind(this);
+        this.resetPos = this.resetPos.bind(this);
+        this.checkWin = this.checkWin.bind(this);
     }
-    // создание массива единиц
+    // создание массива
     fillArr() {
         let array = [];
         for (let i = 0; i < 10; i++) {
             array[i] = [];
             for (let j = 0; j < 10; j++) {
-                array[i][j] = 1;
+                array[i][j] = Math.floor(Math.random() * 2);
             }
         }
+        array[9][0] = 0;
+        array[0][9] = 0;
         return array;
     }
 
@@ -37,7 +42,6 @@ class Table extends React.Component {
         }
         console.log(event);
     }
-    // два метода для увеличения и уменьшения счётчика
     incrementX() {
         let newArr = this.state.current;
         if (newArr[0] == 9 && newArr[1] == 9) {
@@ -52,6 +56,7 @@ class Table extends React.Component {
             }
         }
         this.setState({ current: newArr });
+        this.checkWin(newArr);
     }
     // вывод в консоли при изменении
     // это если мы создаём новую ссылку на массив, т.к. state обновляется как обезьяна
@@ -72,6 +77,7 @@ class Table extends React.Component {
             }
         }
         this.setState({ current: newArr });
+        this.checkWin(newArr);
     }
     incrementY() {
         let newArr = this.state.current;
@@ -81,6 +87,7 @@ class Table extends React.Component {
             newArr[0] += 1;
         }
         this.setState({ current: newArr });
+        this.checkWin(newArr);
     }
     decrementY() {
         let newArr = this.state.current;
@@ -90,6 +97,18 @@ class Table extends React.Component {
             newArr[0] -= 1;
         }
         this.setState({ current: newArr });
+        this.checkWin(newArr);
+    }
+    resetPos() {
+        this.setState({ current: [9, 0] });
+    }
+    checkWin(arr) {
+        if (arr[0] == 0 && arr[1] == 9) {
+            this.resetPos();
+            this.setState({ win: "You won" });
+        } else {
+            this.setState({ win: false });
+        }
     }
     render() {
         // let arr = this.fillArr();
@@ -119,12 +138,23 @@ class Table extends React.Component {
                         ))}
                     </tbody>
                 </table>
+                <div>{this.state.win}</div>
                 <br />
-                <button onClick={this.decrementX}>{"<<"}</button>
-                <button onClick={this.incrementX}>{">>"}</button>
-                <br></br>
-                <button onClick={this.decrementY}>{"↑"}</button>
-                <button onClick={this.incrementY}>{"↓"}</button>
+                <table border="1px">
+                    <tbody>
+                        <tr>
+                            <td></td>
+                            <td><button onClick={this.decrementY}>↑</button></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><button onClick={this.decrementX}>{"<<"}</button></td>
+                            <td><button onClick={this.incrementY}>↓</button></td>
+                            <td><button onClick={this.incrementX}>{">>"}</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button onClick={this.resetPos}>Reset</button>
             </div >
         );
     }
