@@ -9,7 +9,8 @@ class Table extends React.Component {
             off: "green",
             array: this.fillArr(),
             current: [9, 0],
-            win: false
+            win: false,
+            lose: false
         };
         this.fillArr = this.fillArr.bind(this);
         this.press = this.press.bind(this);
@@ -19,6 +20,7 @@ class Table extends React.Component {
         this.decrementY = this.decrementY.bind(this);
         this.resetPos = this.resetPos.bind(this);
         this.checkWin = this.checkWin.bind(this);
+        this.checkLose = this.checkLose.bind(this);
     }
     // создание массива
     fillArr() {
@@ -103,11 +105,23 @@ class Table extends React.Component {
         this.setState({ current: [9, 0] });
     }
     checkWin(arr) {
+        this.checkLose();
         if (arr[0] == 0 && arr[1] == 9) {
             this.resetPos();
             this.setState({ win: "You won" });
         } else {
             this.setState({ win: false });
+        }
+    }
+    checkLose() {
+        let row = this.state.current[0];
+        let col = this.state.current[1];
+        let array = this.state.array;
+        if (array[row][col] == 1) {
+            this.setState({ lose: "you lost, HAHAHAHAHAH" });
+            this.resetPos();
+        } else {
+            this.setState({ lose: false });
         }
     }
     render() {
@@ -138,8 +152,6 @@ class Table extends React.Component {
                         ))}
                     </tbody>
                 </table>
-                <div>{this.state.win}</div>
-                <br />
                 <table border="1px">
                     <tbody>
                         <tr>
@@ -155,6 +167,8 @@ class Table extends React.Component {
                     </tbody>
                 </table>
                 <button onClick={this.resetPos}>Reset</button>
+                <div>{this.state.win}</div>
+                <div>{this.state.lose}</div>
             </div >
         );
     }
