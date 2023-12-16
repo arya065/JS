@@ -21,6 +21,7 @@ class Table extends React.Component {
         this.resetPos = this.resetPos.bind(this);
         this.checkWin = this.checkWin.bind(this);
         this.checkLose = this.checkLose.bind(this);
+        // this.render = this.render.bind(this);
     }
     // создание массива
     fillArr() {
@@ -167,6 +168,7 @@ class Table extends React.Component {
                     </tbody>
                 </table>
                 <button onClick={this.resetPos}>Reset</button>
+                <button onClick={() => window.location.reload(false)}>Rerender</button>
                 <div>{this.state.win}</div>
                 <div>{this.state.lose}</div>
             </div >
