@@ -21,9 +21,17 @@ code {
   background-color: grey;
 }
 
+.mine {
+  background-color: red;
+}
+
 .darktheme {
   background-color: black;
   color: white;
+}
+
+.passed {
+  background-color: blue;
 }
 
 table {

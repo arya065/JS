@@ -9,6 +9,8 @@ class Table extends React.Component {
             off: "green",
             array: this.fillArr(),
             current: [9, 0],
+            prev: [10, 10],
+            history: [],
             win: false,
             lose: false
         };
@@ -21,7 +23,12 @@ class Table extends React.Component {
         this.resetPos = this.resetPos.bind(this);
         this.checkWin = this.checkWin.bind(this);
         this.checkLose = this.checkLose.bind(this);
+        this.setPrev = this.setPrev.bind(this);
         // this.render = this.render.bind(this);
+    }
+
+    setPrev(col, row) {
+        this.setState({ prev: [col, row] });
     }
     // создание массива
     fillArr() {
@@ -43,25 +50,21 @@ class Table extends React.Component {
     }
 
     press(event) {
-        if (event.target.style.backgroundColor == this.state.on) {
-            event.target.style.backgroundColor = this.state.off;
-        } else if (event.target.style.backgroundColor == this.state.off) {
-            event.target.style.backgroundColor = this.state.on;
+        const { backgroundColor } = event.target.style;
+        if (backgroundColor == this.state.on) {
+            backgroundColor = this.state.off;
+        } else if (backgroundColor == this.state.off) {
+            backgroundColor = this.state.on;
         }
         console.log(event);
     }
     incrementX() {
         let newArr = this.state.current;
-        if (newArr[0] == 9 && newArr[1] == 9) {
-            newArr[0] = 9;
-            newArr[1] = 0;
+        this.setState({ history: [...this.state.history, [newArr[0], newArr[1]]] });
+        if (newArr[1] >= 9) {
+            newArr[1] = 9;
         } else {
-            if (newArr[1] >= 9) {
-                // newArr[0] += 1;
-                newArr[1] = 0;
-            } else {
-                newArr[1] += 1;
-            }
+            newArr[1] += 1;
         }
         this.setState({ current: newArr });
         this.checkWin(newArr);
@@ -73,24 +76,20 @@ class Table extends React.Component {
     // }
     decrementX() {
         let newArr = this.state.current;
-        if (newArr[0] == 0 && newArr[1] == 0) {
-            newArr[0] = 0;
-            newArr[1] = 9;
+        this.setState({ history: [...this.state.history, [newArr[0], newArr[1]]] });
+        if (newArr[1] <= 0) {
+            newArr[1] = 0;
         } else {
-            if (newArr[1] <= 0) {
-                // newArr[0] -= 1;
-                newArr[1] = 9;
-            } else {
-                newArr[1] -= 1;
-            }
+            newArr[1] -= 1;
         }
         this.setState({ current: newArr });
         this.checkWin(newArr);
     }
     incrementY() {
         let newArr = this.state.current;
+        this.setState({ history: [...this.state.history, [newArr[0], newArr[1]]] });
         if (newArr[0] == 9) {
-            newArr[0] = 0;
+            newArr[0] = 9;
         } else {
             newArr[0] += 1;
         }
@@ -99,8 +98,9 @@ class Table extends React.Component {
     }
     decrementY() {
         let newArr = this.state.current;
+        this.setState({ history: [...this.state.history, [newArr[0], newArr[1]]] });
         if (newArr[0] == 0) {
-            newArr[0] = 9;
+            newArr[0] = 0;
         } else {
             newArr[0] -= 1;
         }
@@ -114,6 +114,7 @@ class Table extends React.Component {
         this.checkLose();
         if (arr[0] == 0 && arr[1] == 9) {
             this.resetPos();
+            this.setState({ history: [] })
             this.setState({ win: "You won, go again until u lose" });
         } else {
             this.setState({ win: false });
@@ -126,9 +127,33 @@ class Table extends React.Component {
         if (array[row][col] == 1) {
             this.setState({ lose: "you lost, HAHAHAHAHAH" });
             this.resetPos();
+            this.setState({ history: [] })
         } else {
             this.setState({ lose: false });
         }
+    }
+    printCell(row, col, e) {
+        console.log(this.state.history);
+        console.log([row, col]);
+        console.log(this.arrContain(this.state.history, [row, col]));
+        if ((this.state.current[0] == row) && (this.state.current[1] == col)) {
+            return "on";
+        } else if (this.arrContain(this.state.history, [row, col])) {
+            // } else if (this.arrContain(this.state.history, [row, col])) {
+            return "passed";
+        } else if (e == 1) {
+            return "mine";
+        } else {
+            return "off";
+        }
+    }
+    arrContain(arr, el) {
+        for (let i = 0; i < arr.length; i++) {
+            if (arr[i][0] == el[0] && arr[i][1] == el[1]) {
+                return true;
+            }
+        }
+        return false;
     }
     render() {
         // let arr = this.fillArr();
@@ -151,7 +176,7 @@ class Table extends React.Component {
                             <tr key={row}>
                                 {el.map((e, col) => (
                                     <td>
-                                        <button key={col} className={((this.state.current[0] == row) && (this.state.current[1] == col)) ? "on" : "off"}>{e}</button>
+                                        <button key={col} className={this.printCell(row, col, e)}>&nbsp;</button>
                                     </td>
                                 ))}
                             </tr>
@@ -173,7 +198,7 @@ class Table extends React.Component {
                     </tbody>
                 </table>
                 <button onClick={this.resetPos}>Reset</button>
-                <button onClick={() => window.location.reload(false)}>Rerender</button>
+                <button onClick={() => window.location.reload()}>Rerender</button>
                 <div>{this.state.win}</div>
                 <div>{this.state.lose}</div>
             </div >
