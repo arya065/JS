@@ -114,7 +114,7 @@ class Table extends React.Component {
         this.checkLose();
         if (arr[0] == 0 && arr[1] == 9) {
             this.resetPos();
-            this.setState({ win: "You won" });
+            this.setState({ win: "You won, go again until u lose" });
         } else {
             this.setState({ win: false });
         }
