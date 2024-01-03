@@ -5,8 +5,6 @@ class Table extends React.Component {
         super(props);
         // здесь добавили стили и сгенерированный массив
         this.state = {
-            on: "red",
-            off: "green",
             array: this.fillArr(),
             current: [9, 0],
             prev: [10, 10],
@@ -24,6 +22,8 @@ class Table extends React.Component {
         this.checkWin = this.checkWin.bind(this);
         this.checkLose = this.checkLose.bind(this);
         this.setPrev = this.setPrev.bind(this);
+        this.setValues = this.setValues.bind(this);
+        this.setValuesAround = this.setValuesAround.bind(this);
         // this.render = this.render.bind(this);
     }
 
@@ -36,19 +36,79 @@ class Table extends React.Component {
         for (let i = 0; i < 10; i++) {
             array[i] = [];
             for (let j = 0; j < 10; j++) {
-                // add percent of mines
-                let num = Math.floor(Math.random() * 5);
+                let percent = 5; // every N cells is mine, def = 20%
+                let num = Math.floor(Math.random() * percent);
                 if (num != 1) {
                     num = 0;
                 }
                 array[i][j] = num;
             }
         }
+        //no mines end/start
         array[9][0] = 0;
         array[0][9] = 0;
+        //no mines around end/start
+        if (array[9][1] != 0) {
+            array[8][0] = 0;
+        } else if (array[8][0] != 0) {
+            array[9][1] = 0
+        }
+        if (array[0][8] != 0) {
+            array[1][9] = 0;
+        } else if (array[1][9] != 0) {
+            array[0][8] = 0
+        }
+        //set values all cells
+        this.setValues(array);
         return array;
     }
-
+    setValues(array) {
+        for (let i = 0; i < array.length; i++) {
+            for (let j = 0; j < array[i].length; j++) {
+                if (array[i][j] === 1) {
+                    this.setValuesAround(array, i, j, 2);
+                    this.setValuesAround(array, i, j, 3);
+                    this.setValuesAround(array, i, j, 4);
+                }
+            }
+        }
+        this.setState({ array: array });
+    }
+    setValuesAround(array, i, j, step) {
+        //top
+        for (let k = j - step + 1; k <= j + step - 1; k++) {
+            try {
+                if (array[i - step + 1][k] > step || array[i - step + 1][k] == 0) {
+                    array[i - step + 1][k] = step;
+                }
+            } catch (TypeError) { }
+        }
+        //left
+        for (let k = i - step + 1; k <= i + step - 1; k++) {
+            try {
+                if (array[k][j - step + 1] > step || array[k][j - step + 1] == 0) {
+                    array[k][j - step + 1] = step;
+                }
+            } catch (TypeError) { }
+        }
+        //right
+        for (let k = i - step + 1; k <= i + step - 1; k++) {
+            try {
+                if (array[k][j + step - 1] > step || array[k][j + step - 1] == 0) {
+                    array[k][j + step - 1] = step;
+                }
+            } catch (TypeError) { }
+        }
+        //bot
+        for (let k = j - step + 1; k <= j + step - 1; k++) {
+            try {
+                if (array[i + step - 1][k] > step || array[i + step - 1][k] == 0) {
+                    array[i + step - 1][k] = step;
+                }
+            } catch (TypeError) { }
+        }
+        this.setState({ array: array });
+    }
     press(event) {
         const { backgroundColor } = event.target.style;
         if (backgroundColor == this.state.on) {
@@ -109,6 +169,7 @@ class Table extends React.Component {
     }
     resetPos() {
         this.setState({ current: [9, 0] });
+        this.setState({ history: [] });
     }
     checkWin(arr) {
         this.checkLose();
@@ -133,17 +194,18 @@ class Table extends React.Component {
         }
     }
     printCell(row, col, e) {
-        console.log(this.state.history);
-        console.log([row, col]);
-        console.log(this.arrContain(this.state.history, [row, col]));
-        if ((this.state.current[0] == row) && (this.state.current[1] == col)) {
+        // console.log(this.state.history);
+        // console.log([row, col]);
+        // console.log(this.arrContain(this.state.history, [row, col]));
+        console.log(this.state.array);
+        if ((this.state.current[0] == row) && (this.state.current[1] == col)) {//current
             return "on";
-        } else if (this.arrContain(this.state.history, [row, col])) {
+        } else if (this.arrContain(this.state.history, [row, col])) {//passed
             // } else if (this.arrContain(this.state.history, [row, col])) {
             return "passed";
-        } else if (e == 1) {
+        } else if (e == 1) {//mine
             return "mine";
-        } else {
+        } else {//not mine
             return "off";
         }
     }
@@ -154,6 +216,20 @@ class Table extends React.Component {
             }
         }
         return false;
+    }
+    getValue() {
+        let color = this.printCell();
+        if (color == "on") {
+            return -1;
+        }
+        if (color == "passed") {
+            return -2;
+        }
+        if (color == "mine") {
+            return 0;
+        } if (color == "off") {
+            return 1;
+        }
     }
     render() {
         // let arr = this.fillArr();
