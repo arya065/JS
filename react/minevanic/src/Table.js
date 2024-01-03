@@ -22,6 +22,7 @@ class Table extends React.Component {
         this.checkWin = this.checkWin.bind(this);
         this.checkLose = this.checkLose.bind(this);
         this.setPrev = this.setPrev.bind(this);
+        this.getValue = this.getValue.bind(this);
         this.setValues = this.setValues.bind(this);
         this.setValuesAround = this.setValuesAround.bind(this);
         // this.render = this.render.bind(this);
@@ -197,7 +198,7 @@ class Table extends React.Component {
         // console.log(this.state.history);
         // console.log([row, col]);
         // console.log(this.arrContain(this.state.history, [row, col]));
-        console.log(this.state.array);
+        // console.log(this.state.array);
         if ((this.state.current[0] == row) && (this.state.current[1] == col)) {//current
             return "on";
         } else if (this.arrContain(this.state.history, [row, col])) {//passed
@@ -217,18 +218,13 @@ class Table extends React.Component {
         }
         return false;
     }
-    getValue() {
-        let color = this.printCell();
-        if (color == "on") {
-            return -1;
-        }
-        if (color == "passed") {
-            return -2;
-        }
-        if (color == "mine") {
-            return 0;
-        } if (color == "off") {
-            return 1;
+    getValue(row, col, e) {
+        let color = this.printCell(row, col, e);
+        console.log(color);
+        if (color == "passed" || color == "on") {
+            return e;
+        } else {
+            return "-";
         }
     }
     render() {
@@ -252,7 +248,7 @@ class Table extends React.Component {
                             <tr key={row}>
                                 {el.map((e, col) => (
                                     <td>
-                                        <button key={col} className={this.printCell(row, col, e)}>&nbsp;</button>
+                                        <button key={col} className={this.printCell(row, col, e)}>{this.getValue(row, col, e)}</button>
                                     </td>
                                 ))}
                             </tr>
