@@ -1,25 +1,21 @@
-import logo from './logo.svg';
 import './App.css';
+import React from 'react';
+import Table from './Table';
+class App extends React.Component {
+  render() {
+    return (
+      <>
+        <Table />
+      </>
+      // <Counter >
+      //   <div style={style1}>12345</div>
+      //   <span style={{ background: "blue" }}>123456</span>
+      // </Counter>
+    );
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  }
 }
 
 export default App;
+
+
