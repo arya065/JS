@@ -14,7 +14,7 @@ code {
 }
 
 .on {
-  background-color: green;
+  background-color: white;
 }
 
 .off {
@@ -36,4 +36,18 @@ code {
 
 table {
   border-collapse: collapse;
+}
+
+td button {
+  height: 30px;
+  width: 30px;
+}
+.four{
+  background-color: green;
+}
+.three{
+  background-color: yellow;
+}
+.two{
+  background-color: orange;
 }

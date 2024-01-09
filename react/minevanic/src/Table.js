@@ -203,10 +203,19 @@ class Table extends React.Component {
             return "on";
         } else if (this.arrContain(this.state.history, [row, col])) {//passed
             // } else if (this.arrContain(this.state.history, [row, col])) {
-            return "passed";
+            if (e == 4) {
+                return "four";
+            }
+            if (e == 3) {
+                return "three";
+            }
+            if (e == 2) {
+                return "two";
+            }
+            // return "passed";
         } else if (e == 1) {//mine
             return "mine";
-        } else {//not mine
+        } else {//not shown
             return "off";
         }
     }
@@ -220,14 +229,15 @@ class Table extends React.Component {
     }
     getValue(row, col, e) {
         let color = this.printCell(row, col, e);
-        console.log(color);
-        if (color == "passed" || color == "on") {
+        // console.log(color);
+        if (color == "four" ||color == "three" ||color == "two" || color == "on") {
             return e;
         } else {
-            return "-";
+            return '';
         }
     }
     render() {
+        // console.log(this.state.array);
         // let arr = this.fillArr();
         // console.log(this.state);
         // this.printArray(this.fillArrState(arr));
