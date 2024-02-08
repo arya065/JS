@@ -1,17 +1,22 @@
 import React, { Component, useState } from "react";
 import { List, Button } from 'reactstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import data from './data/data.json';
 import './App.css';
 import axios from 'axios';
 
 function ShowAnswers(props) {
   const [answers, setAll] = useState([]);
+  const [accept, setAccept] = useState(true);
   const view = () => {
-    console.log(props.open);
-    if (props.open) {
-      console.log("here");
-      apiGet();
-      console.log(answers);
+    if (accept) {
+      console.log(props.open);
+      if (props.open) {
+        console.log("here");
+        apiGet();
+        console.log(answers);
+        setAccept(false);
+      }
     }
   }
   const apiGet = () => {
@@ -19,6 +24,7 @@ function ShowAnswers(props) {
       .get("http://proyectos/API/apiTestfototipos/add/100/100")
       .then((response) => {
         setAll(response.data);
+        console.log(response.data);
       })
       .catch((error) => {
         console.log("ERRORRRRRRR", error);
