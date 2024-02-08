@@ -13,11 +13,10 @@ function ShowAnswers(props) {
       apiGet();
       console.log(answers);
     }
-
   }
   const apiGet = () => {
     axios
-      .get("http://localhost/Proyectos/API/apiTestfototipos/add/100/100")
+      .get("http://proyectos/API/apiTestfototipos/add/100/100")
       .then((response) => {
         setAll(response.data);
       })

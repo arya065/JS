@@ -42,7 +42,7 @@ function TestGet() {
 
   const apiGet = (url) => {
     axios
-      .get("http://localhost/Proyectos/API/apiTestfototipos" + url)
+      .get("http://proyectos/API/apiTestfototipos/" + url)
       .then((response) => {
         setData(response.data);
       })
