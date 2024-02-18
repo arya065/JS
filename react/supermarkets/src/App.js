@@ -6,7 +6,7 @@ import './App.css';
 
 function Cell(props) {
   const [status, setStatus] = useState(false);
-  const [color, setColor] = useState(props.mix([100, 0, 50], [0, 0, 50]));
+  const [color, setColor] = useState(props.mix([100, 0, 50], [100, 0, 50]));
 
   const handleClick = () => {
     setStatus(!status);
@@ -22,11 +22,16 @@ function Cell(props) {
     return Math.floor(Math.random() * multi);
   }
 
+  //добавить шаг со смещением
+  //таблица цветов
+  //алг для hue, остальное в рандом
+  //таблица с hue, но перемешанный
   const makeRandomColor = () => {
     return [randInt(360), randInt(100), randInt(100)];
   }
 
   useEffect(() => {
+    //добавить сюда условие изменения, после выбора магазина и при повторном клике меняется цвет
     printShop();
   }, [status, setStatus]);
 
