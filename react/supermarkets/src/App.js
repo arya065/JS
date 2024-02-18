@@ -6,17 +6,22 @@ import './App.css';
 
 function Cell(props) {
   const [status, setStatus] = useState(false);
-  const [color, setColor] = useState(props.mix([255, 100, 255], [255, 200, 255]));
+  const [color, setColor] = useState(props.mix([255, 255, 255], [0, 0, 0]));
   const handleClick = () => {
     setStatus(!status);
   }
   const printShop = () => {
+    // console.log(makeRandomColor());
     if (props.shops.find((e) => e == props.i)) {
-      setColor(props.mix([0, 0, 0], [0, 200, 255]));
-      console.log("shop here", props.i);
-    } else {
-      console.log("no shop here", props.i);
+      setColor(props.mix(makeRandomColor(), makeRandomColor()));
     }
+  }
+  const randInt = () => {
+    // console.log(Math.floor(Math.random() * 255));
+    return Math.floor(Math.random() * 255);
+  }
+  const makeRandomColor = () => {
+    return [randInt(), randInt(), randInt()];
   }
   useEffect(() => {
     printShop();
@@ -25,7 +30,7 @@ function Cell(props) {
   return (
     <span
       // onMouseEnter={() => setStatus(true)} 
-      onMouseLeave={() => setStatus(false)}
+      // onMouseLeave={() => setStatus(false)}
     >
       <Button id={"btn" + props.i} type="button" style={{ width: "60px", margin: "3px", background: color }} onClick={() => handleClick()}>
         {props.e}
@@ -35,7 +40,7 @@ function Cell(props) {
         <PopoverBody>
           <div>Poblacion:{props.e}</div>
           <div>Index de zona:{props.e}</div>
-          <Button onClick={() => props.addShop(props.i)}>Si</Button>
+          <Button onClick={() => { props.addShop(props.i); setStatus(false) }}>Si</Button>
         </PopoverBody>
       </Popover>
     </span>
