@@ -6,23 +6,26 @@ import './App.css';
 
 function Cell(props) {
   const [status, setStatus] = useState(false);
-  const [color, setColor] = useState(props.mix([180, 210, 255], [0, 0, 0]));
+  const [color, setColor] = useState(props.mix([100, 0, 50], [0, 0, 50]));
+
   const handleClick = () => {
     setStatus(!status);
   }
+
   const printShop = () => {
-    // console.log(makeRandomColor());
     if (props.shops.find((e) => e == props.i)) {
-      setColor(props.mix(makeRandomColor(), makeRandomColor(), -50));
+      setColor(props.mix(makeRandomColor(), makeRandomColor(), 50));
     }
   }
-  const randInt = () => {
-    // console.log(Math.floor(Math.random() * 255));
-    return Math.floor(Math.random() * 255);
+
+  const randInt = (multi) => {
+    return Math.floor(Math.random() * multi);
   }
+
   const makeRandomColor = () => {
-    return [randInt(), randInt(), randInt()];
+    return [randInt(360), randInt(100), randInt(100)];
   }
+
   useEffect(() => {
     printShop();
   }, [status, setStatus]);
@@ -64,32 +67,18 @@ class App extends Component {
       shops: [],
     };
   }
-  //saturation of the color, need to fix
-  setSaturation(color, saturation = 255) {
-    console.log("color ini", color);
-    if (Math.abs(color[0] - color[1]) < saturation) {
-      color[1] -= saturation;
-      console.log("here1", color[1]);
-    }
-    if (Math.abs(color[0] - color[2]) < saturation) {
-      color[2] -= saturation;
-      console.log("here2", color[2]);
-    }
-    if (Math.abs(color[1] - color[2]) < saturation) {
-      color[2] -= saturation;
-      console.log("here3", color[2]);
-    }
-    console.log("color fin", color);
-    return color;
-  }
 
-  mixColorsRGB(color1, color2, brightness = 0) {
-    // color1 = this.setSaturation(color1);
-    // color2 = this.setSaturation(color2);
-    let red = color1[0] + color2[0];
-    let green = color1[1] + color2[1];
-    let blue = color1[2] + color2[2];
-    return ("rgb(" + parseInt(Math.round(red / 2) + brightness) + "," + parseInt(Math.round(green / 2) + brightness) + "," + parseInt(Math.round(blue / 2) + brightness) + ")");
+  mixColorsRGB(color1, color2, saturation = 0, brightness = 50) {
+    let h = parseInt(Math.floor((color1[0] + color2[0]) / 2));
+    let s = parseInt(Math.floor((color1[1] + color2[1]) / 2));
+    let l = parseInt(Math.floor((color1[2] + color2[2]) / 2));
+    if (s < saturation) {
+      s = saturation;
+    }
+    if (l > brightness) {
+      l = brightness;
+    }
+    return ("hsl(" + h + "," + s + "%," + l + "%" + ")");
   }
   addShopIndex(i) {
     this.setState({ shops: [...this.state.shops, i] });
