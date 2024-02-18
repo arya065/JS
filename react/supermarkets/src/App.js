@@ -6,14 +6,14 @@ import './App.css';
 
 function Cell(props) {
   const [status, setStatus] = useState(false);
-  const [color, setColor] = useState(props.mix([255, 255, 255], [0, 0, 0]));
+  const [color, setColor] = useState(props.mix([180, 210, 255], [0, 0, 0]));
   const handleClick = () => {
     setStatus(!status);
   }
   const printShop = () => {
     // console.log(makeRandomColor());
     if (props.shops.find((e) => e == props.i)) {
-      setColor(props.mix(makeRandomColor()));
+      setColor(props.mix(makeRandomColor(), makeRandomColor(), -50));
     }
   }
   const randInt = () => {
@@ -64,11 +64,32 @@ class App extends Component {
       shops: [],
     };
   }
-  mixColorsRGB(color1, color2 = [100, 100, 100]) {
+  //saturation of the color, need to fix
+  setSaturation(color, saturation = 255) {
+    console.log("color ini", color);
+    if (Math.abs(color[0] - color[1]) < saturation) {
+      color[1] -= saturation;
+      console.log("here1", color[1]);
+    }
+    if (Math.abs(color[0] - color[2]) < saturation) {
+      color[2] -= saturation;
+      console.log("here2", color[2]);
+    }
+    if (Math.abs(color[1] - color[2]) < saturation) {
+      color[2] -= saturation;
+      console.log("here3", color[2]);
+    }
+    console.log("color fin", color);
+    return color;
+  }
+
+  mixColorsRGB(color1, color2, brightness = 0) {
+    // color1 = this.setSaturation(color1);
+    // color2 = this.setSaturation(color2);
     let red = color1[0] + color2[0];
     let green = color1[1] + color2[1];
     let blue = color1[2] + color2[2];
-    return ("rgb(" + Math.round(red / 2) + "," + Math.round(green / 2) + "," + Math.round(blue / 2) + ")");
+    return ("rgb(" + parseInt(Math.round(red / 2) + brightness) + "," + parseInt(Math.round(green / 2) + brightness) + "," + parseInt(Math.round(blue / 2) + brightness) + ")");
   }
   addShopIndex(i) {
     this.setState({ shops: [...this.state.shops, i] });
@@ -85,7 +106,7 @@ class App extends Component {
           }
           return (
             <>
-              <Cell mix={(color1, color2) => this.mixColorsRGB(color1, color2)} shops={this.state.shops} addShop={(i) => this.addShopIndex(i)} e={e} i={i}></Cell>
+              <Cell mix={(color1, color2, brightness) => this.mixColorsRGB(color1, color2, brightness)} shops={this.state.shops} addShop={(i) => this.addShopIndex(i)} e={e} i={i}></Cell>
             </>
           )
         })}
