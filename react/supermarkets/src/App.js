@@ -13,7 +13,7 @@ function Cell(props) {
   const printShop = () => {
     // console.log(makeRandomColor());
     if (props.shops.find((e) => e == props.i)) {
-      setColor(props.mix(makeRandomColor(), makeRandomColor()));
+      setColor(props.mix(makeRandomColor()));
     }
   }
   const randInt = () => {
@@ -29,8 +29,8 @@ function Cell(props) {
 
   return (
     <span
-      // onMouseEnter={() => setStatus(true)} 
-      // onMouseLeave={() => setStatus(false)}
+    // onMouseEnter={() => setStatus(true)} 
+    // onMouseLeave={() => setStatus(false)}
     >
       <Button id={"btn" + props.i} type="button" style={{ width: "60px", margin: "3px", background: color }} onClick={() => handleClick()}>
         {props.e}
@@ -64,7 +64,7 @@ class App extends Component {
       shops: [],
     };
   }
-  mixColorsRGB(color1, color2) {
+  mixColorsRGB(color1, color2 = [100, 100, 100]) {
     let red = color1[0] + color2[0];
     let green = color1[1] + color2[1];
     let blue = color1[2] + color2[2];
