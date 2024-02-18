@@ -6,16 +6,28 @@ import './App.css';
 
 function Cell(props) {
   const [status, setStatus] = useState(false);
-  const [shop, setShop] = useState(false);
+  const [color, setColor] = useState(props.mix([255, 100, 255], [255, 200, 255]));
   const handleClick = () => {
     setStatus(!status);
   }
-  const addShopIndex = (i) => {
-    
+  const printShop = () => {
+    if (props.shops.find((e) => e == props.i)) {
+      setColor(props.mix([0, 0, 0], [0, 200, 255]));
+      console.log("shop here", props.i);
+    } else {
+      console.log("no shop here", props.i);
+    }
   }
+  useEffect(() => {
+    printShop();
+  }, [status, setStatus]);
+
   return (
-    <span onMouseEnter={() => setStatus(true)} onMouseLeave={() => setStatus(false)}>
-      <Button id={"btn" + props.i} type="button" style={{ width: "60px", margin: "3px", background: props.mix([255, 100, 255], [255, 200, 255]) }} onClick={() => handleClick()}>
+    <span
+      // onMouseEnter={() => setStatus(true)} 
+      onMouseLeave={() => setStatus(false)}
+    >
+      <Button id={"btn" + props.i} type="button" style={{ width: "60px", margin: "3px", background: color }} onClick={() => handleClick()}>
         {props.e}
       </Button>
       <Popover isOpen={status} target={"btn" + props.i} trigger="legacy">
@@ -23,7 +35,7 @@ function Cell(props) {
         <PopoverBody>
           <div>Poblacion:{props.e}</div>
           <div>Index de zona:{props.e}</div>
-          <Button>Si</Button>
+          <Button onClick={() => props.addShop(props.i)}>Si</Button>
         </PopoverBody>
       </Popover>
     </span>
@@ -43,7 +55,8 @@ class App extends Component {
         0, 2, 36, 43, 61, 26, 64, 12, 0,
         1, 2, 15, 43, 34, 2, 12, 2, 3,
         1, 0, 12, 3, 0, 0, 21, 2, 2
-      ]
+      ],
+      shops: [],
     };
   }
   mixColorsRGB(color1, color2) {
@@ -52,7 +65,12 @@ class App extends Component {
     let blue = color1[2] + color2[2];
     return ("rgb(" + Math.round(red / 2) + "," + Math.round(green / 2) + "," + Math.round(blue / 2) + ")");
   }
-
+  addShopIndex(i) {
+    this.setState({ shops: [...this.state.shops, i] });
+  }
+  componentDidUpdate() {
+    console.log(this.state);
+  }
   render() {
     return (
       <div>
@@ -62,7 +80,7 @@ class App extends Component {
           }
           return (
             <>
-              <Cell mix={(color1, color2) => this.mixColorsRGB(color1, color2)} e={e} i={i}></Cell>
+              <Cell mix={(color1, color2) => this.mixColorsRGB(color1, color2)} shops={this.state.shops} addShop={(i) => this.addShopIndex(i)} e={e} i={i}></Cell>
             </>
           )
         })}
