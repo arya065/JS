@@ -108,14 +108,26 @@ class App extends Component {
       cells: {}
     };
   }
-  readCells() {
-    this.state.poblacion.map((e, i) => {
-      let cell = {
-        [i]: [[0, 0, 70], e, 0, false]
-      }
-    });
-    //cell->[i]:[color,value,closest,isShop]
+  componentDidMount() {
+    this.createCells();
+    const res = this.state.poblacion.reduce((acum, current, i) => {
+      acum[i] = [0, 0, 70];
+      return acum;
+    }, {});
+    this.setState({ shops: res });
   }
+  createCells() {
+    let cells;//cells->[i]:[color,value,closest,isShop]
+    this.state.poblacion.map((e, i) => {
+      cells = { ...cells, [i]: [[0, 0, 70], e, 0, false] }
+    });
+    this.setState({ cells: { ...cells } });
+  }
+
+  componentDidUpdate() {
+    console.log(this.state);
+  }
+
   mixColorsRGB(color1, color2, saturation = 0, brightness = 50) {
     let h = parseInt(Math.floor((color1[0] + color2[0]) / 2));
     let s = parseInt(Math.floor((color1[1] + color2[1]) / 2));
@@ -132,18 +144,8 @@ class App extends Component {
   //   //добавить проверку наличия магазина по индексу
   //   this.setState({ shops: { ...this.state.shops, [i]: [color[0], color[1], color[2]] } });
   // }
-  // componentDidMount() {
-  //   const res = this.state.poblacion.reduce((acum, current, i) => {
-  //     acum[i] = [0, 0, 70];
-  //     return acum;
-  //   }, {});
-  //   this.setState({ shops: res });
-  // }
-  componentDidUpdate() {
-    console.log(this.state);
-  }
+
   render() {
-    this.readCells();
     return (
       <div>
         {this.state.poblacion.map((e, i) => {
