@@ -6,7 +6,7 @@ import './App.css';
 
 function Cell(props) {
   const [status, setStatus] = useState(false);
-  const [color, setColor] = useState(props.mix([100, 0, 50], [100, 0, 50]));
+  const [color, setColor] = useState("hsl(" + 0 + "," + 0 + "%," + 70 + "%" + ")");
   const [added, setAdded] = useState(false);
   const [distMap, setDistMap] = useState([]);
   const handleClick = () => {
@@ -16,7 +16,7 @@ function Cell(props) {
   const printShop = () => {
     let current = props.shops.find((e) => e[0] == props.i);
     if (current) {
-      setColor(current[1]);
+      setColor("hsl(" + current[1][0] + "," + current[1][1] + "%," + current[1][2] + "%" + ")");
     }
   }
 
@@ -26,8 +26,11 @@ function Cell(props) {
       let closest = distMap.filter(e => e[0] == minDist);//array of closest shop with distance and id
       let colors = [];
       closest.map((e) => {
-        props.shops.filter(el => { if (el[0] == e[1]) { colors.push(el[1]) } });
+        props.shops.filter(el => { if (el[0] == e[1]) { colors = el[1] } });
       });
+      if(closest[0][0] !=0){
+        setColor("hsl(" + colors[0] + "," + parseInt(colors[1]-10) + "%," +  parseInt(colors[2]-10) + "%" + ")");
+      }
       console.log("colors:", colors);
       console.log("all shops:", props.shops);
       console.log("closest:", closest);
@@ -108,7 +111,7 @@ class App extends Component {
   }
   addShop(i, color) {
     //добавить проверку наличия магазина по индексу
-    this.setState({ shops: [...this.state.shops, [i, "hsl(" + color[0] + "," + color[1] + "%," + color[2] + "%" + ")"]] });
+    this.setState({ shops: [...this.state.shops, [i, [color[0], color[1], color[2]]]] });
   }
   componentDidUpdate() {
     console.log(this.state);
