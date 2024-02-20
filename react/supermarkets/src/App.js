@@ -9,6 +9,7 @@ function Cell(props) {
   const [color, setColor] = useState("hsl(" + 0 + "," + 0 + "%," + 70 + "%" + ")");
   const [added, setAdded] = useState(false);
   const [distMap, setDistMap] = useState([]);
+  const [textColor, setTextColor] = useState("white");
   const handleClick = () => {
     setStatus(!status);
   }
@@ -28,8 +29,13 @@ function Cell(props) {
       closest.map((e) => {
         props.shops.filter(el => { if (el[0] == e[1]) { colors = el[1] } });
       });
-      if(closest[0][0] !=0){
-        setColor("hsl(" + colors[0] + "," + parseInt(colors[1]-10) + "%," +  parseInt(colors[2]-10) + "%" + ")");
+      if (closest[0][0] != 0) {
+        setColor("hsl(" + colors[0] + "," + parseInt(colors[1] - 30) + "%," + parseInt(colors[2] + 30) + "%" + ")");
+      }
+      if ((colors[0] > 50 && colors[0] < 160) || (color[2] > 80)) {
+        setTextColor("black");
+      } else {
+        setTextColor("white");
       }
       console.log("colors:", colors);
       console.log("all shops:", props.shops);
@@ -46,7 +52,7 @@ function Cell(props) {
   //алг для hue, остальное в рандом
   //таблица с hue, но перемешанный
   const makeRandomColor = () => {
-    return [randInt(360), randInt(20) + 40, randInt(20) + 40];
+    return [randInt(360), 100, randInt(20) + 40];
   }
 
   const getDistance = (coord2, i) => {
@@ -60,7 +66,6 @@ function Cell(props) {
 
   useEffect(() => {
     props.shops.map((e) => {
-      // console.log(distMap);
       setDistMap([...distMap, getDistance([Math.floor(e[0] / 9), (e[0] % 9)], e[0])]);
     });
   }, [props.addShop]);
@@ -75,7 +80,9 @@ function Cell(props) {
     // onMouseLeave={() => setStatus(false)}
     >
       <Button id={"btn" + props.i} type="button" style={{ width: "60px", margin: "3px", background: color }} onClick={() => handleClick()}>
-        {props.e}
+        <span style={{ mixBlendMode: "difference" }}>{/* реверс цвета */}
+          {props.e}
+        </span>
       </Button>
       <Popover isOpen={status} target={"btn" + props.i} trigger="legacy">
         <PopoverHeader>Quieres poner mercado aqui?</PopoverHeader>
@@ -120,7 +127,6 @@ class App extends Component {
     return (
       <div>
         {this.state.poblacion.map((e, i) => {
-          // console.log("element:", e, ";index:", i);
           if ((i) % 9 == 0) {
             return (
               <>
