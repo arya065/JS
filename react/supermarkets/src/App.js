@@ -145,7 +145,7 @@ class App extends Component {
   }
 
   componentDidUpdate() {
-    this.updateCells();
+    this.updateCells();//вызов нужно переместить в другое место чтобы не было бесконечного вызова
     console.log(this.state);
   }
 
@@ -160,9 +160,11 @@ class App extends Component {
   }
 
   updateCells() {
+    let tmp = this.state.cells;
     Object.keys(this.state.cells).map((i) => {
-      this.getShortest(i);
+      tmp[i][2] = this.getShortest(i);
     });
+    this.setState({ cells: tmp });
   }
 
   addShop(i) {//add to shops list
@@ -241,6 +243,7 @@ class App extends Component {
           closest[1].push(ind);
         }
       });
+
       console.log("closest final_________________________", closest);
     }
   }
