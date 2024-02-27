@@ -15,7 +15,6 @@ function ShopInfo(props) {
 }
 
 function ShopsInfo(props) {
-
   const showShops = () => {
     if (Object.keys(props.shops).length >= 1) {
       return (
@@ -24,7 +23,7 @@ function ShopsInfo(props) {
           <ul>
             {
               Object.keys(props.shops).map((i) => (
-                <ShopInfo i={i} value={props.shops[i]}></ShopInfo>
+                <ShopInfo i={i} value={props.shops[i]} />
               ))
             }
           </ul>
@@ -32,9 +31,7 @@ function ShopsInfo(props) {
       )
     } else {
       return (
-        <>
-          <p>No hay tiendas</p>
-        </>
+        <p>No hay tiendas</p>
       )
     }
   }
@@ -71,11 +68,13 @@ function Cell(props) {
     // onMouseEnter={() => setStatus(true)} 
     // onMouseLeave={() => setStatus(false)}
     >
-      <Button id={"btn" + props.i} type="button"
+      <Button
+        id={"btn" + props.i}
+        type="button"
         style={{ width: "60px", margin: "3px", background: makeBackground() }}
         onClick={() => handleClick()}
       >
-        <span style={{ mixBlendMode: "difference" }}>{/* реверс цвета текста*/}
+        <span style={{ mixBlendMode: "difference" }}>{/* reverse of color of text*/}
           {props.value}
         </span>
       </Button>
@@ -84,7 +83,9 @@ function Cell(props) {
         <PopoverBody>
           <div>Poblacion:{props.value}</div>
           <div>Index de zona:{props.value}</div>
-          <Button onClick={() => { props.addShop(props.i); setStatus(false) }}>Si</Button>
+          <Button onClick={() => { props.addShop(props.i); setStatus(false) }}>
+            Si
+          </Button>
         </PopoverBody>
       </Popover>
     </span>
@@ -102,12 +103,11 @@ class App extends Component {
     };
   }
   componentDidMount() {
-    //то, что у нас делится между магазинами делится и в сумме
     this.createCells();
   }
 
   componentDidUpdate() {
-    console.log(this.state.shops);
+    // console.log(this.state.shops);
   }
 
   createCells() {//parse cells
@@ -132,7 +132,7 @@ class App extends Component {
         tmp[i][2] = shortest;
         if (shortest[1].length > 1) {//for several closest
           shortest[1].map(e => {
-            this.setPopulationShops(e, population / shortest.length);//divide population for several shops
+            this.setPopulationShops(e, population / shortest.length);//divide population between several shops
             color.push([this.getColorShops(e)]);
             tmp[i][0] = color;
           });
@@ -229,15 +229,15 @@ class App extends Component {
 
   shopCell(e, i) {//render shop cell or normal cell
     const isShop = this.checkInShops(i);
+    let color;
     if (isShop) {
-      return (
-        <Cell addShop={(i) => this.addShop(i)} updateCells={() => this.updateCells()} color={this.getColorShops(i)} value={e} i={i}></Cell>
-      )
+      color = this.getColorShops(i);
     } else {
-      return (
-        <Cell addShop={(i) => this.addShop(i)} updateCells={() => this.updateCells()} color={this.getColorCells(i)[0]} value={e} i={i}></Cell>
-      )
+      color = this.getColorCells(i)[0];
     }
+    return (
+      <Cell addShop={(i) => this.addShop(i)} updateCells={() => this.updateCells()} color={color} value={e} i={i} />
+    )
   }
 
 
@@ -265,6 +265,7 @@ class App extends Component {
   }
 
   render() {
+    console.log("rerender");
     return (
       <div>
         {
@@ -275,7 +276,7 @@ class App extends Component {
             </>
           ))
         }
-        <ShopsInfo shops={this.state.shops}></ShopsInfo>
+        <ShopsInfo shops={this.state.shops} />
       </div>
     )
   }
