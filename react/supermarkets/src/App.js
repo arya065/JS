@@ -10,9 +10,9 @@ function Cell(props) {
     if (props.color[0] instanceof Array) {
       let res = "linear-gradient(45deg,";
       props.color.map((e) => {
-        res += "hsl(" + e[0][0] + "," + e[0][1] + "%," + e[0][2] + "%" + "),";
+        res += "hsl(" + e[0][0] + "," + parseInt(e[0][1] - 30) + "%," + parseInt(e[0][2] + 20) + "%" + "),";
       });
-      res = res.slice(0, res.length-1);
+      res = res.slice(0, res.length - 1);
       res += ")";
       return res;
     } else {
@@ -61,11 +61,13 @@ class App extends Component {
     };
   }
   componentDidMount() {
+    //то, что у нас делится между магазинами делится и в сумме
+    console.log(parseInt(1332 - 1288 - 144));
     this.createCells();
   }
 
   componentDidUpdate() {
-    // console.log(this.state.cells);
+    console.log(this.state.shops);
   }
 
   createCells() {//parse cells
@@ -84,15 +86,21 @@ class App extends Component {
     Object.keys(this.state.cells).map((i) => {
       let shortest = this.getShortest(i);
       let color = [];
+      let shops = this.state.shops;
+
       if (shortest != undefined) {
         tmp[i][2] = shortest;
         if (shortest[1].length > 1) {
           shortest[1].map(e => {
-            color.push([this.getValuesShops(e)]);
+            console.log("lots of elem", e);
+            this.setPopulationShops(e, this.getPopulationCells(i));
+            color.push([this.getColorShops(e)]);
             tmp[i][0] = color;
           });
         } else {
-          color = this.getValuesShops(shortest[1][0]);
+          console.log("elem", shortest[1][0]);
+          this.setPopulationShops(shortest[1][0], this.getPopulationCells(i));
+          color = this.getColorShops(shortest[1][0]);
           tmp[i][0] = [color[0], color[1] - 30, color[2] + 30]
         }
       }
@@ -104,7 +112,17 @@ class App extends Component {
   addShop(i) {//add to shops list
     //shop->[i]:[color,underControl]
     let color = this.makeRandomColor();
-    this.setState({ shops: { ...this.state.shops, [i]: color } }, () => {
+    this.setState({ shops: { ...this.state.shops, [i]: [color, 0] } }, () => {
+      //set to 0 population
+      // console.log(this.state.shops);
+      // if (Object.keys(this.state.shops).length != 0) {
+      Object.keys(this.state.shops).map((i) => {
+        this.setPopulationShops(i)
+      })
+      // }
+      //set initial population of the shop
+      console.log("ini", this.getPopulationCells(i));
+      this.setPopulationShops(i, this.getPopulationCells(i))
       //chng isShop to true
       let tmp = this.state.cells;
       tmp[i][3] = true;
@@ -119,18 +137,38 @@ class App extends Component {
     return this.state.shops[i] == undefined ? false : true;
   }
 
-  getValuesCells(i) {
+  getColorCells(i) {
     if (this.state.cells[i] != undefined) {
       return this.state.cells[i];
     }
     return [[0, 0, 85], -1];
   }
-  getValuesShops(i) {
+  getPopulationCells(i) {
+    if (this.state.cells[i] != undefined) {
+      return this.state.cells[i][1];
+    }
+    return 0;
+  }
+  getColorShops(i) {
     if (this.state.shops[i] != undefined) {
-      return this.state.shops[i];
+      return this.state.shops[i][0];
     }
     return [[0, 0, 85]];
   }
+  setPopulationShops(i, value = -1) {
+    if (this.state.shops[i] != undefined) {
+      if (value == -1) {
+        let tmp = this.state.shops;
+        tmp[i][1] = 0;
+        this.setState({ shops: tmp })
+      } else {
+        let tmp = this.state.shops;
+        tmp[i][1] += value;
+        this.setState({ shops: tmp })
+      }
+    }
+  }
+
   mixColorsHSL(color1, color2, saturation = 50, brightness = 60) {
     let h = parseInt(Math.floor((color1[0] + color2[0]) / 2));
     let s = parseInt(Math.floor((color1[1] + color2[1]) / 2));
@@ -160,11 +198,11 @@ class App extends Component {
     const isShop = this.checkInShops(i);
     if (isShop) {
       return (
-        <Cell addShop={(i) => this.addShop(i)} updateCells={() => this.updateCells()} color={this.getValuesShops(i)} value={"shop"} i={i}></Cell>
+        <Cell addShop={(i) => this.addShop(i)} updateCells={() => this.updateCells()} color={this.getColorShops(i)} value={e} i={i}></Cell>
       )
     } else {
       return (
-        <Cell addShop={(i) => this.addShop(i)} updateCells={() => this.updateCells()} color={this.getValuesCells(i)[0]} value={e} i={i}></Cell>
+        <Cell addShop={(i) => this.addShop(i)} updateCells={() => this.updateCells()} color={this.getColorCells(i)[0]} value={e} i={i}></Cell>
       )
     }
   }
